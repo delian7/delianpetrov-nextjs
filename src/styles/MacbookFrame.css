@@ -1,0 +1,51 @@
+.mac-screen {
+  width: 74vmin;
+  height: 47.26vmin;
+  border-radius: 2vmin 2vmin 0vmin 0vmin;
+  border: solid #000;
+  border-width: 1.2vmin 1.2vmin 2.5vmin 1.2vmin;
+  background: #FFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0vmin 0vmin 0vmin 0.2vmin #BBB;
+}
+.mac-screen::before {
+  content: "";
+  position: absolute;
+  top: 23.4vmin;
+  width: 9vmin;
+  height: 1.6vmin;
+  border-radius: 0vmin 0vmin 0.4vmin 0.4vmin;
+}
+.mac-base {
+  width: 90vmin;
+  height: 3.5vmin;
+  background-color: #BBB;
+  background: linear-gradient(to bottom, #BBB, #BBB, #555);
+  border-radius: 0vmin 0vmin 2vmin 2vmin;
+  box-shadow: 1vmin 0vmin 1vmin #BBB inset, 2vmin 0vmin 2vmin #FFF inset, -1vmin 0vmin 1vmin #CCC inset, -2vmin 0vmin 2vmin #FFF inset;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+.mac-base::before {
+  content: "";
+  width: 15vmin;
+  height: 1vmin;
+  background: #EEE;
+  box-shadow: 2vmin 0vmin 1vmin -1vmin #999 inset, -2vmin 0vmin 1vmin -1vmin #999 inset;
+  border-radius: 0vmin 0vmin 1vmin 1vmin;
+}
+.mac-foot-wrapper {
+  width: 80vmin;
+  display: flex;
+  justify-content: space-between;
+}
+.mac-foot {
+  width: 6vmin;
+  height: 0.8vmin;
+  background-color: #BBB;
+  border-radius: 0vmin 0vmin 1vmin 1vmin;
+  background: linear-gradient(to right, #999, #BBB, #999);
+}

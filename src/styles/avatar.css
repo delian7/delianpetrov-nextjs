@@ -1,0 +1,128 @@
+.avatar {
+	border: 5px white solid;
+	overflow: hidden;
+	box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+	transform: translatey(0px);
+}
+
+@media screen and (max-height: 850px) {
+  .landing {
+    background-image: linear-gradient(-20deg, #ff2846 0%, #6944ff 100%) !important;
+  }
+}
+
+@media screen and (max-height: 850px) and (orientation: landscape) {
+  .profile-card {
+    padding: 8em 0;
+  }
+
+  .landing {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+.landing {
+  overflow: hidden;
+  width: 100% !important;
+  font: normal 14px/1.618em "Roboto", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.profile-card {
+  background: #942626;
+  width: 56px;
+  height: 56px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  transform: scale(0.1);
+  opacity: 0;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  animation:
+    init 0.1s 0.1s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards,
+    materia 0.1s 0.5s cubic-bezier(0.86, 0, 0.07, 1) forwards;
+}
+
+.profile-card header {
+  opacity: 0;
+  animation: moveIn 0.7s 0.7s ease forwards;
+}
+
+@keyframes init {
+  0% {
+    width: 0px;
+    height: 0px;
+  }
+  100% {
+    width: 56px;
+    height: 56px;
+    margin-top: 0px;
+    opacity: 1;
+  }
+}
+
+@keyframes moveDown {
+  0% {
+    top: 50%;
+  }
+  50% {
+    top: 40%;
+  }
+  100% {
+    top: 100%;
+  }
+}
+
+@keyframes moveUp {
+  0% {
+    background: #942626;
+    top: 100%;
+  }
+  50% {
+    top: 40%;
+  }
+  100% {
+    top: 50%;
+    background: #E0E0E0;
+  }
+}
+
+@keyframes materia {
+  50% {
+    border-radius: 4px;
+  }
+  100% {
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(-20deg, #ff2846 0%, #6944ff 100%);
+    background-color: black;
+    border-radius: 9px;
+    top: 50%;
+  }
+}
+
+@keyframes moveIn {
+  0% {
+    margin-top: 50px;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (min-aspect-ratio: 4/3) {
+  body {
+    background-size: cover;
+  }
+  body:before {
+    width: 0px;
+  }
+}

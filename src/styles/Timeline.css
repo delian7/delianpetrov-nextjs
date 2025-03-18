@@ -1,0 +1,209 @@
+.timeline {
+  padding: 50px 20px;
+  margin: 0 auto;
+  max-width: 1000px;
+}
+
+#timeline-section {
+  scroll-margin-top: 80px;
+}
+
+@media (max-width: 667px) {
+  #timeline-section {
+    scroll-margin-top: 30px;
+  }
+}
+
+
+.timeline ol {
+  position: relative;
+  list-style: none;
+}
+
+.timeline ol::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: #17c3b2;
+}
+
+.timeline ol li .item-inner {
+  padding: 20px 180px;
+  margin-bottom: 3vh;
+}
+
+.timeline ol li .time-wrapper {
+  position: relative;
+  font-size: 1rem;
+  line-height: 0.9;
+}
+
+.timeline ol li .time-wrapper::before {
+  content: "";
+  position: absolute;
+  background: #17c3b2;
+}
+
+.timeline ol li .time-wrapper::after {
+  content: "";
+  position: absolute;
+  background-size: cover;
+}
+
+.timeline ol li .time-wrapper::before {
+  top: 3.1rem;
+  left: -180px;
+  transform: translateY(-50%);
+  width: 0;
+  height: 3px;
+  transition: width 0.8s linear;
+}
+
+.timeline ol li .time-wrapper::after {
+  top: calc(90% + 10px);
+  left: -90px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  transform: scale(0);
+  transform-origin: left center;
+  transition: all 0.4s linear;
+}
+
+.timeline ol li time,
+.timeline ol li .details > * {
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.timeline ol li time {
+  display: inline-block;
+  transform: translateY(-30px);
+}
+
+.timeline ol li .details > * {
+  transform: translateY(30px);
+}
+
+.timeline ol li .details h3 {
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: 700;
+  margin: 15px 0;
+}
+
+.timeline ol li .details p {
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1;
+  margin: 15px 0;
+}
+
+/* ANIMATION STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.timeline ol li.in-view .time-wrapper::before {
+  width: 100px;
+}
+
+.timeline ol li.in-view .time-wrapper::after {
+  transition-delay: 0.8s;
+  transform: scale(1.5);
+}
+
+.timeline ol li.in-view time,
+.timeline ol li.in-view .details > * {
+  opacity: 1;
+  transform: none;
+}
+
+.timeline ol li.in-view time {
+  transition-delay: 1.3s;
+}
+
+.timeline ol li.in-view .details h3 {
+  transition-delay: 1.5s;
+}
+
+.timeline ol li.in-view .details p {
+  transition-delay: 1.7s;
+}
+
+.anttech-logo::after {
+  background-image: url(../images/anttech_logo.png)
+}
+
+.applab-logo::after {
+  background-image: url(../images/applab_logo.jpg)
+}
+
+.cryoport-logo::after {
+  background-image: url(../images/cryoport_logo.jpg)
+}
+
+.gsa-logo::after {
+  background-image: url(../images/gsa_logo.png)
+}
+
+.fridgeguide-logo::after {
+  background-image: url(../images/fridgeguide/fridgeguide_logo.png);
+  background-color: white;
+}
+
+.legalshield-logo::after {
+  background-image: url(../images/legalshield_logo.png)
+}
+
+.saloninteractive-logo::after {
+  background-image: url(../images/saloninteractive_logo.png)
+}
+
+.seastatus-logo::after {
+  background-image: url(../images/seastatus_logo.png);
+  background-color: white;
+}
+
+.uci-logo::after {
+  background-image: url(../images/uci_logo.jpg)
+}
+
+.visage-logo::after {
+  background-image: url(../images/visage_logo.png);
+  background-color: white;
+}
+
+/* MQ STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+@media (max-width: 700px) {
+  .timeline ol li .item-inner {
+    padding: 20px 40px;
+  }
+
+  .timeline ol li .time-wrapper::before {
+    display: none;
+  }
+
+  .timeline ol li .time-wrapper::after {
+    left: -62px;
+    transform-origin: center;
+  }
+
+  .timeline ol li.in-view .time-wrapper::after {
+    transition-delay: 0s;
+  }
+
+  .timeline ol li.in-view time {
+    transition-delay: 0.5s;
+  }
+
+  .timeline ol li.in-view .details h3 {
+    transition-delay: 0.7s;
+  }
+
+  .timeline ol li.in-view .details p {
+    transition-delay: 0.9s;
+  }
+}
