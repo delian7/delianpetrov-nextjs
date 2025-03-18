@@ -8,6 +8,7 @@ interface FullScreenSectionProps {
   children: React.ReactNode;
   isDarkBackground: boolean;
   backgroundColor: string;
+  [key: string]: unknown;
 }
 
 const FullScreenSection: React.FC<FullScreenSectionProps> = ({ children, isDarkBackground, ...boxProps }) => {
