@@ -5,14 +5,14 @@ import { Box, HStack } from '@chakra-ui/react';
 import { useScroll } from '../context/ScrollContext';
 
 interface MobileNavProps {
-  socials: any[];
+  socials: [];
   openResumeModal: () => void;
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({socials, openResumeModal}) => {
   const [showMenu, setShowMenu] = useState(false);
   const handleSmoothScroll = useScroll();
-  const handleBurgerClick = (event: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const handleBurgerClick = () => {
     setShowMenu(!showMenu);
   }
 

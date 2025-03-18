@@ -1,11 +1,12 @@
 
 import { Text, Flex } from "@chakra-ui/react";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Social {
   text: string;
   url: string;
-  icon: any; // You might want to replace `any` with a more specific type if possible
+  icon: IconProp; // You might want to replace `any` with a more specific type if possible
 }
 
 interface SocialListProps {

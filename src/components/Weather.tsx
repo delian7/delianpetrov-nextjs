@@ -23,19 +23,19 @@ interface Forecast {
 }
 
 interface CurrentWeather {
-  city_name: String;
+  city_name: string;
   icon: string;
   temperature: number;
-  condition: String;
-  high: String;
-  low: String;
-  feels_like: String;
+  condition: string;
+  high: string;
+  low: string;
+  feels_like: string;
 }
 
 interface WeatherProps {
   forecast?: Forecast[],
   currentWeather?: CurrentWeather,
-  cacheKeyExists?: any
+  cacheKeyExists?: boolean
 }
 
 const Weather: React.FC<WeatherProps> = () => {
@@ -102,7 +102,7 @@ const Weather: React.FC<WeatherProps> = () => {
     getWeatherData({unitsOverride: units === 'imperial' ? 'metric' : 'imperial', location: address})
   }
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setHideChangeLocation(true);
     getWeatherData({location: address});
@@ -157,7 +157,7 @@ const Weather: React.FC<WeatherProps> = () => {
               </div>
               <div>
                 <ul className="week-forecast">
-                  {forecast?.map((day: any, index: any) => (
+                  {forecast?.map((day: {icon: string; date: Date; temperature: number}, index: number) => (
                     <li key={index}>
                       <i className="day-icon" data-feather={day.icon}></i>
                       <span className="day-label">{new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' })}</span>

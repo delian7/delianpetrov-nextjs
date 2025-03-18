@@ -1,3 +1,4 @@
+import { Img } from '@chakra-ui/react';
 import '../styles/PhoneFrame.css';
 
 interface PhoneProps {
@@ -11,7 +12,7 @@ const PhoneFrame: React.FC<PhoneProps> = ({image, video}) => {
       <ul>
         <li>
           {image && (
-            <img src={image} alt="" />
+            <Img src={image} alt="" />
           )}
           {video && ( // Check if video prop is provided
             <video controls loop autoPlay playsInline>

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useScroll } from '../context/ScrollContext';
 
 interface DesktopNavProps {
-  socials: any;
+  socials: [];
   openResumeModal: () => void;
 }
 
@@ -65,7 +65,7 @@ const DesktopNav: React.FC<DesktopNavProps> = ({socials, openResumeModal}) => {
             </div>
             <div className="sections">
               <HStack spacing={8}>
-                <button onClick={(e) => {openResumeModal()}}>My Resume</button>
+                <button onClick={() => {openResumeModal()}}>My Resume</button>
                 <button id="#timeline-section" onClick={handleSmoothScroll}>My Career</button>
                 <button id="#projects-section" onClick={handleSmoothScroll}>Projects</button>
                 <button id="#contactme-section" onClick={handleSmoothScroll}>Contact Me</button>

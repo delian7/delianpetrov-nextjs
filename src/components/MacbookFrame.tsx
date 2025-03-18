@@ -6,7 +6,7 @@ interface FrameProps {
   children?: React.ReactNode;
 }
 
-const PhoneFrame: React.FC<FrameProps> = ({image, children}) => {
+const PhoneFrame: React.FC<FrameProps> = ({children}) => {
   return (
     <Box
       position={'relative'}

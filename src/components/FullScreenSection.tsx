@@ -7,7 +7,7 @@ import { VStack } from "@chakra-ui/react";
 interface FullScreenSectionProps {
   children: React.ReactNode;
   isDarkBackground: boolean;
-  [key: string]: any;
+  backgroundColor: string;
 }
 
 const FullScreenSection: React.FC<FullScreenSectionProps> = ({ children, isDarkBackground, ...boxProps }) => {
