@@ -1,5 +1,3 @@
-"use client";
-
 import { Heading } from "@chakra-ui/react";
 import FullScreenSection from "./FullScreenSection";
 import '../styles/Timeline.css';

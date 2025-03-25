@@ -1,5 +1,3 @@
-"use client";
-
 import { useState } from 'react'
 import '../styles/MobileNav.css'
 import SocialList from './SocialList';

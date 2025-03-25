@@ -1,4 +1,3 @@
-"use client";
 import React, { createContext, useContext } from 'react';
 
 const ScrollContext = createContext<((event: React.MouseEvent<HTMLButtonElement>) => void) | undefined>(undefined);
