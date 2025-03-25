@@ -36,12 +36,12 @@ function addAnimatedClass(entries: IntersectionObserverEntry[], observer: Inters
 const Timeline = () => {
   const liRefs = useRef<Map<number, HTMLLIElement>>(new Map());
   const timelineEntries = [
-    { year: 2024, heading: "Principal Software Engineer", description: "FridgeGuide Ai", logo: 'fridgeguide-logo' },
+    { year: 2023, heading: "Principal Software Engineer", description: "FridgeGuide Ai", logo: 'fridgeguide-logo' },
     { year: 2022, heading: "Senior Software Engineer", description: "SalonInteractive", logo: 'saloninteractive-logo' },
-    { year: 2021, heading: "Senior Software Engineer", description: "Cryoport", logo: 'cryoport-logo' },
-    { year: 2019, heading: "Senior Software Engineer", description: "LegalShield", logo: 'legalshield-logo' },
-    { year: 2017, heading: "Co-Founder/Principle Software Engineer", description: "Seatatus", logo: 'seastatus-logo'},
-    { year: 2016, heading: "Full Stack Engineer", description: "Visage", logo: 'visage-logo' },
+    { year: 2020, heading: "Senior Software Engineer", description: "Cryoport", logo: 'cryoport-logo' },
+    { year: 2018, heading: "Senior Software Engineer", description: "LegalShield", logo: 'legalshield-logo' },
+    { year: 2016, heading: "Co-Founder/Principle Software Engineer", description: "Seatatus", logo: 'seastatus-logo'},
+    { year: 2015, heading: "Full Stack Engineer", description: "Visage", logo: 'visage-logo' },
     { year: 2015, heading: "Software Engineer", description: "ApplicantLab", logo: 'applab-logo' },
     { year: 2015, heading: "Graduated University of California, Irvine", description: "B.S. in Informatics & Minor in Mangagement", logo: 'uci-logo' },
     { year: 2014, heading: "Google Student Ambassador", description: "University of California, Irvine", logo: 'gsa-logo' },
