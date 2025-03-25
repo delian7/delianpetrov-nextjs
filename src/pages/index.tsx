@@ -13,6 +13,7 @@ import Alert from "../components/Alert";
 import { ModalProvider } from "../context/modalContext";
 import { ScrollProvider } from '../context/ScrollContext';
 import BackToTopButton from "../components/BackToTopButton";
+import Head from "next/head";
 
 const HomePage = () => {
   return (
@@ -45,7 +46,14 @@ function AppContent() {
 
 function App() {
   return (
-    <AppContent />
+    <>
+      <Head>
+        <meta property="og:title" content="Delian Petrov: Senior Software Engineer Specialized in Ruby on Rails and React" />
+        <meta property="og:description" content="I combine the power of Ruby on Rails and React to build dynamic web applications. Discover my work, learn from my experiences, and explore the world of full-stack development." />
+        <meta property="og:image" content="/avatar.jpg" />
+      </Head>
+      <AppContent />
+    </>
   )
 }
 

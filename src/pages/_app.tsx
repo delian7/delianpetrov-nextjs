@@ -18,9 +18,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           name="description"
           content="I combine the power of Ruby on Rails and React to build dynamic web applications. Discover my work, learn from my experiences, and explore the world of full-stack development."
         />
-        <meta property="og:title" content="Delian Petrov: Senior Software Engineer Specialized in Ruby on Rails and React" />
-        <meta property="og:description" content="I combine the power of Ruby on Rails and React to build dynamic web applications. Discover my work, learn from my experiences, and explore the world of full-stack development." />
-        <meta property="og:image" content="/avatar.jpg" />
         <meta property="og:url" content="https://delianpetrov.com" />
         <meta name="msapplication-TileColor" content="#da532c" />
       </Head>
