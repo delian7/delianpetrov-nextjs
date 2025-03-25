@@ -1,13 +1,26 @@
 import { GetServerSideProps } from "next";
+import { useEffect } from "react";
 import Head from "next/head";
 
 interface NotionData {
   title: string;
   description: string;
   image: string;
+  url: string;
 }
 
 export default function DynamicPage({ notionData }: { notionData: NotionData }) {
+  useEffect(() => {
+    if (notionData?.url) {
+      // Redirect to the URL after a short delay
+      const timer = setTimeout(() => {
+        window.location.href = notionData.url;
+      }, 500); // 0.5 second delay for the spinner
+
+      return () => clearTimeout(timer); // Cleanup timeout on unmount
+    }
+  }, [notionData]);
+
   if (!notionData) {
     return <div>Redirecting...</div>;
   }
@@ -24,7 +37,7 @@ export default function DynamicPage({ notionData }: { notionData: NotionData }) 
         <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
       </div>
     </>
-  )
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -41,9 +54,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   return {
-    redirect: {
-      destination: notionData.url, // Redirect to the URL from Notion data
-      permanent: false,
+    props: {
+      notionData,
     },
   };
 };
