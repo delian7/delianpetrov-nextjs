@@ -1,3 +1,5 @@
+"use client";
+
 import { ChakraProvider } from "@chakra-ui/react";
 import Header from "../components/Header";
 import LandingSection from "../components/LandingSection";
@@ -16,7 +18,7 @@ import BackToTopButton from "../components/BackToTopButton";
 
 const HomePage = () => {
   return (
-    <main>
+    <>
       <Header />
       <LandingSection />
       <ProjectsSection />
@@ -25,7 +27,7 @@ const HomePage = () => {
       <Footer />
       <BackToTopButton />
       <Alert />
-    </main>
+    </>
   )
 }
 

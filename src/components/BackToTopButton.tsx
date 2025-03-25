@@ -1,3 +1,5 @@
+"use client";
+
 import { Fade } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { IconButton } from "@chakra-ui/react";

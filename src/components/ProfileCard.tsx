@@ -1,3 +1,5 @@
+"use client";
+
 import { useModalContext } from '../context/modalContext';
 import ResumeModalContent from './ResumeModalContent';
 import {

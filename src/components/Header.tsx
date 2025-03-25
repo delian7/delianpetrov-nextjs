@@ -1,3 +1,5 @@
+"use client";
+
 import { Box } from "@chakra-ui/react";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import {

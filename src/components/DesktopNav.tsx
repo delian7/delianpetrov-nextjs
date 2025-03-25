@@ -1,3 +1,5 @@
+"use client";
+
 import { HStack } from "@chakra-ui/react";
 
 import { Box } from "@chakra-ui/react";

@@ -1,3 +1,5 @@
+"use client";
+
 import { Box } from "@chakra-ui/react";
 import FullScreenSection from "./FullScreenSection";
 import '../styles/avatar.css';
