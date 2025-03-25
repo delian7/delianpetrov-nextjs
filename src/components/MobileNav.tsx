@@ -3,9 +3,11 @@ import '../styles/MobileNav.css'
 import SocialList from './SocialList';
 import { Box, HStack } from '@chakra-ui/react';
 import { useScroll } from '../context/ScrollContext';
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+
 
 interface MobileNavProps {
-  socials: [];
+  socials: { icon: IconDefinition; url: string; text: string }[];
   openResumeModal: () => void;
 }
 

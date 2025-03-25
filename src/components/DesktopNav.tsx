@@ -3,10 +3,11 @@ import { HStack } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react";
 import SocialList from "./SocialList";
 import { useEffect, useState } from "react";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { useScroll } from '../context/ScrollContext';
 
 interface DesktopNavProps {
-  socials: [];
+  socials: { icon: IconDefinition; url: string; text: string }[];
   openResumeModal: () => void;
 }
 
