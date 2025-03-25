@@ -3,7 +3,7 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, Modal
 
 interface ModalContextType {
   setModalTitle: (title: string) => void
-  setModalContent: (newContent: JSX.Element) => void;
+  setModalContent: (newContent: ReactNode) => void;
   openModal: () => void;
 }
 
@@ -16,11 +16,11 @@ const ModalContext = createContext<ModalContextType | undefined>(undefined);
 export const ModalProvider = ({ children }: ModalProviderProps) => {
   const modal = useDisclosure();
   const [title, setTitle] = useState<string>();
-  const [content, setContent] = useState<JSX.Element>();
+  const [content, setContent] = useState<ReactNode>();
 
   const [state] = useState<ModalContextType>({
     setModalTitle: (title: string) => setTitle(title),
-    setModalContent: (newContent: JSX.Element) => setContent(newContent),
+    setModalContent: (newContent: ReactNode) => setContent(newContent),
     openModal: () => modal.onOpen(),
   });
 
