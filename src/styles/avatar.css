@@ -30,81 +30,18 @@
 }
 
 .profile-card {
-  background: #269494;
-  width: 56px;
-  height: 56px;
-  position: absolute;
-  left: 50%;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: linear-gradient(-20deg, #ff2846 0%, #6944ff 100%);
+  background-color: black;
+  border-radius: 9px;
   top: 50%;
-  z-index: 2;
-  transform: scale(0.1);
-  opacity: 0;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-  animation:
-    init 0.1s 0.1s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards,
-    materia 0.1s 0.5s cubic-bezier(0.86, 0, 0.07, 1) forwards;
 }
 
 .profile-card header {
   opacity: 0;
-  animation: moveIn 0.7s 0.7s ease forwards;
-}
-
-@keyframes init {
-  0% {
-    width: 0px;
-    height: 0px;
-  }
-  100% {
-    width: 56px;
-    height: 56px;
-    margin-top: 0px;
-    opacity: 1;
-  }
-}
-
-@keyframes moveDown {
-  0% {
-    top: 50%;
-  }
-  50% {
-    top: 40%;
-  }
-  100% {
-    top: 100%;
-  }
-}
-
-@keyframes moveUp {
-  0% {
-    background: #942626;
-    top: 100%;
-  }
-  50% {
-    top: 40%;
-  }
-  100% {
-    top: 50%;
-    background: #E0E0E0;
-  }
-}
-
-@keyframes materia {
-  50% {
-    border-radius: 4px;
-  }
-  100% {
-    z-index: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: linear-gradient(-20deg, #ff2846 0%, #6944ff 100%);
-    background-color: black;
-    border-radius: 9px;
-    top: 50%;
-  }
+  animation: moveIn 0.7s 0.1s ease forwards;
 }
 
 @keyframes moveIn {
