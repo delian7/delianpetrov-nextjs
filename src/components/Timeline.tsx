@@ -42,7 +42,7 @@ const Timeline = () => {
     { year: 2018, heading: "Senior Software Engineer", description: "LegalShield", logo: 'legalshield-logo' },
     { year: 2016, heading: "Co-Founder/Principle Software Engineer", description: "Seatatus", logo: 'seastatus-logo'},
     { year: 2015, heading: "Full Stack Engineer", description: "Visage", logo: 'visage-logo' },
-    { year: 2015, heading: "Software Engineer", description: "ApplicantLab", logo: 'applab-logo' },
+    { year: 2014, heading: "Software Engineer", description: "ApplicantLab", logo: 'applab-logo' },
     { year: 2015, heading: "Graduated University of California, Irvine", description: "B.S. in Informatics & Minor in Mangagement", logo: 'uci-logo' },
     { year: 2014, heading: "Google Student Ambassador", description: "University of California, Irvine", logo: 'gsa-logo' },
     { year: 2012, heading: "Lead Technician", description: "AntTech Repair Center @ UCI", logo: 'anttech-logo' },
