@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BlockObjectResponse, PartialBlockObjectResponse } from '@notionhq/client/build/src/api-endpoints';
+import { Box, Img } from '@chakra-ui/react';
+import FullScreenSection from './FullScreenSection';
 
 interface NotionPageRendererProps {
   pageId: string;
@@ -43,6 +45,24 @@ const NotionPageRenderer: React.FC<NotionPageRendererProps> = ({ pageId }) => {
         return <li>{block.bulleted_list_item.rich_text.map((text: {  plain_text: string }) => text.plain_text).join(' ')}</li>;
       case 'numbered_list_item':
         return <li>{block.numbered_list_item.rich_text.map((text: { plain_text: string }) => text.plain_text).join(' ')}</li>;
+      case 'to_do':
+        return (
+          <div>
+            <input type="checkbox" defaultChecked={block.to_do.checked} disabled />
+            {block.to_do.rich_text.map((text: { plain_text: string }) => text.plain_text).join(' ')}
+          </div>
+        );
+      case 'quote':
+        return <blockquote>{block.quote.rich_text.map((text: { plain_text: string }) => text.plain_text).join(' ')}</blockquote>;
+      case 'code':
+        return (
+          <pre>
+            <code>{block.code.rich_text.map((text: { plain_text: string }) => text.plain_text).join(' ')}</code>
+          </pre>
+        );
+      case 'image':
+        const imageUrl = block.image.type === 'external' ? block.image.external.url : block.image.file.url;
+        return <Img src={imageUrl} alt="Notion Image" style={{ maxWidth: '100%' }} />;
       default:
         return <div>Unsupported block type: {block.type}</div>;
       }
@@ -60,12 +80,20 @@ const NotionPageRenderer: React.FC<NotionPageRendererProps> = ({ pageId }) => {
   }
 
   return (
-    <div>
-      {Array.isArray(pageContent) &&
-        pageContent.map((block: BlockObjectResponse | PartialBlockObjectResponse) => (
-          <div key={block.id}>{renderBlock(block)}</div>
+    <FullScreenSection
+      isDarkBackground
+      backgroundColor="#2A4365"
+      position="relative"
+      w="100vw"
+      flexDirection="column"
+    >
+      <Box>
+        {Array.isArray(pageContent) &&
+          pageContent.map((block: BlockObjectResponse | PartialBlockObjectResponse) => (
+            <div key={block.id}>{renderBlock(block)}</div>
         ))}
-    </div>
+      </Box>
+    </FullScreenSection>
   );
 };
 
