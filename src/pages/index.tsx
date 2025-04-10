@@ -14,12 +14,14 @@ import { ModalProvider } from "../context/modalContext";
 import { ScrollProvider } from '../context/ScrollContext';
 import BackToTopButton from "../components/BackToTopButton";
 import Head from "next/head";
+import NotionPageRenderer from "@/components/NotionPageRenderer";
 
 const HomePage = () => {
   return (
     <main>
       <Header />
       <LandingSection />
+      <NotionPageRenderer pageId="1d16a365467e8010b28be6f4ba33ee55" />
       <ProjectsSection />
       <Timeline />
       <ContactMeSection />
