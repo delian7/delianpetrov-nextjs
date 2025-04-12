@@ -17,7 +17,9 @@ import seastatusLogo from '../images/seastatus_logo.png';
 import seastatusHero from '../images/seastatus/new-home.png';
 import visageLogo from '../images/visage_logo_white.png';
 import visageHero from '../images/visage/card.png';
-
+import WanderfulTanzaniaModalContent from "./WanderfulTanzaniaModalContent";
+import WanderfulTanzaniaHero from '../images/wanderfultanzania/safari3.png';
+import WanderfulTazaniaLogo from '../images/wanderfultanzania/wanderful-tanzania-logo-white.png'
 
 interface Project {
   title: string;
@@ -28,6 +30,14 @@ interface Project {
 }
 
 const projects: Project[] = [
+  {
+    title: "WanderfulTanzania",
+    description:
+      "A Travel website built on Wordpress with WooCommerce and Stripe integration",
+    logo: () => WanderfulTazaniaLogo.src,
+    hero: () => WanderfulTanzaniaHero.src,
+    modalContent: <WanderfulTanzaniaModalContent />
+  },
   {
     title: "FridgeGuide Ai",
     description:
