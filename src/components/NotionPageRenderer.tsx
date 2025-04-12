@@ -36,28 +36,28 @@ const NotionPageRenderer: React.FC<NotionPageRendererProps> = ({ pageId }) => {
       case 'paragraph':
         return <p>{block.paragraph.rich_text.map((text: { plain_text: string }) => text.plain_text).join(' ')}</p>;
       case 'heading_1':
-        return <h1>{block.heading_1.rich_text.map((text: {  plain_text: string }) => text.plain_text).join(' ')}</h1>;
+        return <h1>{block.heading_1.rich_text.map((text) => text.plain_text).join(' ')}</h1>;
       case 'heading_2':
-        return <h2>{block.heading_2.rich_text.map((text: {  plain_text: string }) => text.plain_text).join(' ')}</h2>;
+        return <h2>{block.heading_2.rich_text.map((text) => text.plain_text).join(' ')}</h2>;
       case 'heading_3':
-        return <h3>{block.heading_3.rich_text.map((text: {  plain_text: string }) => text.plain_text).join(' ')}</h3>;
+        return <h3>{block.heading_3.rich_text.map((text) => text.plain_text).join(' ')}</h3>;
       case 'bulleted_list_item':
-        return <li>{block.bulleted_list_item.rich_text.map((text: {  plain_text: string }) => text.plain_text).join(' ')}</li>;
+        return <li>{block.bulleted_list_item.rich_text.map((text) => text.plain_text).join(' ')}</li>;
       case 'numbered_list_item':
-        return <li>{block.numbered_list_item.rich_text.map((text: { plain_text: string }) => text.plain_text).join(' ')}</li>;
+        return <li>{block.numbered_list_item.rich_text.map((text) => text.plain_text).join(' ')}</li>;
       case 'to_do':
         return (
           <div>
             <input type="checkbox" defaultChecked={block.to_do.checked} disabled />
-            {block.to_do.rich_text.map((text: { plain_text: string }) => text.plain_text).join(' ')}
+            {block.to_do.rich_text.map((text) => text.plain_text).join(' ')}
           </div>
         );
       case 'quote':
-        return <blockquote>{block.quote.rich_text.map((text: { plain_text: string }) => text.plain_text).join(' ')}</blockquote>;
+        return <blockquote>{block.quote.rich_text.map((text) => text.plain_text).join(' ')}</blockquote>;
       case 'code':
         return (
           <pre>
-            <code>{block.code.rich_text.map((text: { plain_text: string }) => text.plain_text).join(' ')}</code>
+            <code>{block.code.rich_text.map((text) => text.plain_text).join(' ')}</code>
           </pre>
         );
       case 'image':

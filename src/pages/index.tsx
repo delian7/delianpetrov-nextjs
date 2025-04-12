@@ -1,4 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import theme from '../theme';
 import Header from "../components/Header";
 import LandingSection from "../components/LandingSection";
 import ProjectsSection from "../components/ProjectsSection";
@@ -34,7 +35,7 @@ const HomePage = () => {
 
 function AppContent() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <AlertProvider>
         <ModalProvider>
           <ScrollProvider>
