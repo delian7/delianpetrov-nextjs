@@ -36,7 +36,7 @@ function addAnimatedClass(entries: IntersectionObserverEntry[], observer: Inters
 const Timeline = () => {
   const liRefs = useRef<Map<number, HTMLLIElement>>(new Map());
   const timelineEntries = [
-    { year: 2023, heading: "Principal Software Engineer", description: "FridgeGuide Ai", logo: 'fridgeguide-logo' },
+    { year: 2024, heading: "Principal Software Engineer", description: "FridgeGuide Ai", logo: 'fridgeguide-logo' },
     { year: 2022, heading: "Senior Software Engineer", description: "SalonInteractive", logo: 'saloninteractive-logo' },
     { year: 2020, heading: "Senior Software Engineer", description: "Cryoport", logo: 'cryoport-logo' },
     { year: 2018, heading: "Senior Software Engineer", description: "LegalShield", logo: 'legalshield-logo' },

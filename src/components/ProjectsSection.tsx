@@ -33,7 +33,7 @@ const projects: Project[] = [
   {
     title: "WanderfulTanzania",
     description:
-      "A Travel website built on Wordpress with WooCommerce and Stripe integration",
+      "Wordpress site with WooCommerce and Stripe integration",
     logo: () => WanderfulTazaniaLogo.src,
     hero: () => WanderfulTanzaniaHero.src,
     modalContent: <WanderfulTanzaniaModalContent />
