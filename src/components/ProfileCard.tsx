@@ -151,7 +151,7 @@ const ProfileCard = () => {
               fontWeight="500"
               color="#324e63"
             >
-              Specializing in Ruby on Rails & React
+              Currently Employed at Meta
             </Text>
             <HStack
               fontSize="18px"
