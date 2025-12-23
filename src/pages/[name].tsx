@@ -42,7 +42,20 @@ export default function DynamicPage({ notionData }: { notionData: NotionData }) 
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { name } = context.params!;
-  const notionData = await fetchNotionData(name as string);
+  const rawCode = context.query.code;
+  const code = Array.isArray(rawCode) ? rawCode[0] : rawCode;
+
+  const notionData = await fetchNotionData(name as string, code as string | undefined);
+
+
+  if (notionData && (notionData as any).__unauthorized) {
+    return {
+      redirect: {
+        destination: "/unauthorized?name=" + encodeURIComponent(name as string),
+        permanent: false,
+      },
+    };
+  }
 
   if (!notionData) {
     return {
@@ -60,8 +73,16 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 
-async function fetchNotionData(name: string) {
-  const response = await fetch(`https://qpqyy5wg42qcon34ph6mhljct40wtmpl.lambda-url.us-east-2.on.aws/?name=${name}`);
+async function fetchNotionData(name: string, auth?: string) {
+  const params = new URLSearchParams({ name });
+  if (auth) params.append("auth", auth);
+
+  const response = await fetch(`https://api.delianpetrov.com/short_links/?${params.toString()}`);
+
+  if (response.status === 401) {
+    return { __unauthorized: true };
+  }
+
   const data = await response.json();
 
   if (!data["url"]) {
