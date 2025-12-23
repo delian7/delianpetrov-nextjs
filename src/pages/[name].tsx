@@ -49,9 +49,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 
   if (notionData && notionData.__unauthorized) {
+    const promptParam = notionData.prompt
+      ? `&prompt=${encodeURIComponent(notionData.prompt as string)}`
+      : "";
+
     return {
       redirect: {
-        destination: "/unauthorized?name=" + encodeURIComponent(name as string),
+        destination: "/unauthorized?name=" + encodeURIComponent(name as string) + promptParam,
         permanent: false,
       },
     };
@@ -80,6 +84,15 @@ async function fetchNotionData(name: string, auth?: string) {
   const response = await fetch(`https://api.delianpetrov.com/short_links/?${params.toString()}`);
 
   if (response.status === 401) {
+    try {
+      const body = await response.json();
+      if (body && typeof body.prompt === "string") {
+        return { __unauthorized: true, prompt: body.prompt };
+      }
+    } catch {
+      // ignore parse errors and fall back to generic unauthorized
+    }
+    
     return { __unauthorized: true };
   }
 
