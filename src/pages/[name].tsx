@@ -48,7 +48,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const notionData = await fetchNotionData(name as string, code as string | undefined);
 
 
-  if (notionData && (notionData as any).__unauthorized) {
+  if (notionData && notionData.__unauthorized) {
     return {
       redirect: {
         destination: "/unauthorized?name=" + encodeURIComponent(name as string),
