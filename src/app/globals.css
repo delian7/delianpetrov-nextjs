@@ -94,13 +94,8 @@ nav ul li a:hover { color: var(--text-primary); }
 
 /* ─── HERO ─── */
 .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.hero-bg { position: absolute; inset: 0; z-index: 0; }
-.hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: var(--orb-opacity); will-change: transform; }
-.hero-orb-1 { width: 600px; height: 600px; background: radial-gradient(circle, var(--accent) 0%, transparent 70%); top: -10%; right: -5%; }
-.hero-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, #ff6b9d 0%, transparent 70%); bottom: -10%; left: -5%; }
-.hero-orb-3 { width: 300px; height: 300px; background: radial-gradient(circle, #44ddff 0%, transparent 70%); top: 40%; left: 30%; opacity: 0.25; }
-.hero-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black, transparent); }
-.hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; padding: 0 24px; }
+.hero-sky { position: absolute; inset: 0; z-index: 0; background: linear-gradient(180deg, #0a0a1a 0%, #1a1040 40%, #2d1b69 100%); }
+.hero-content { position: relative; z-index: 10; text-align: center; max-width: 900px; padding: 0 24px; }
 .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 100px; border: 1px solid var(--border-glass); background: var(--bg-glass); backdrop-filter: blur(12px); font-size: 13px; color: var(--text-secondary); margin-bottom: 32px; opacity: 0; }
 .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #44ff88; box-shadow: 0 0 8px #44ff88; }
 .hero h1 { font-family: var(--font-display); font-size: clamp(48px, 8vw, 96px); font-weight: 700; letter-spacing: -3px; line-height: 1.05; margin-bottom: 24px; opacity: 0; }
@@ -141,11 +136,11 @@ nav ul li a:hover { color: var(--text-primary); }
 .project-hero { height: 240px; position: relative; overflow: hidden; }
 .project-hero-inner { width: 100%; height: 120%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 48px; font-weight: 800; letter-spacing: -1px; color: white; position: relative; background-size: cover; background-position: center; }
 /* .project-hero-overlay { position: absolute; inset: 0; z-index: 1; } */
-.project-body { padding: 28px; }
-.project-tag { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 10px; }
-.project-name { font-family: var(--font-display); font-size: 22px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+.project-body { padding: 24px 28px 28px; }
+.project-tag { font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 6px; }
+.project-name { font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
 .project-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-.project-techs { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.project-techs { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
 .tech-pill { padding: 4px 12px; border-radius: 100px; background: rgba(105,68,255,0.1); border: 1px solid rgba(105,68,255,0.2); font-size: 11px; color: var(--accent); font-family: var(--font-mono); }
 
 /* ─── TIMELINE ─── */
@@ -230,7 +225,8 @@ body.modal-open { overflow: hidden; }
 footer { padding: 32px 48px 72px; text-align: center; border-top: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
 
 /* ─── LIGHT MODE OVERRIDES ─── */
-html.light .hero-orb-1, html.light .hero-orb-2, html.light .hero-orb-3 { filter: blur(120px); }
+html.light .hero-sky { background: linear-gradient(180deg, #e8e0f0 0%, #d4c8e8 40%, #c0b0d8 100%) !important; }
+html.light .geo-shape { border-color: rgba(90,58,232,0.15) !important; }
 html.light .timeline-item::before { background: var(--bg-elevated); }
 html.light .project-card { box-shadow: 0 2px 20px rgba(0,0,0,0.06); }
 html.light .project-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.12), 0 0 30px var(--accent-glow); }

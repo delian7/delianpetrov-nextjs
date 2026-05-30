@@ -609,19 +609,82 @@ export default function HomePage() {
     return () => ctx.revert();
   }, []);
 
-  /* ── Parallax orbs ── */
+  /* ── Tech Parallax Hero ── */
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particlesRef = useRef<Array<{x:number;y:number;size:number;speedX:number;speedY:number;opacity:number;color:string}>>([]);
+
   useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
+    resize();
+    window.addEventListener("resize", resize);
+
+    if (particlesRef.current.length === 0) {
+      for (let i = 0; i < 60; i++) {
+        particlesRef.current.push({
+          x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+          size: Math.random() * 2 + 0.5, speedX: (Math.random() - 0.5) * 0.3,
+          speedY: (Math.random() - 0.5) * 0.2, opacity: Math.random() * 0.4 + 0.1,
+          color: Math.random() > 0.5 ? "105,68,255" : "68,221,255",
+        });
+      }
+    }
+
+    let raf: number;
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const light = document.documentElement.classList.contains("light");
+      const ps = particlesRef.current;
+      ps.forEach(p => {
+        p.x += p.speedX; p.y += p.speedY;
+        if (p.x < 0) p.x = canvas.width; if (p.x > canvas.width) p.x = 0;
+        if (p.y < 0) p.y = canvas.height; if (p.y > canvas.height) p.y = 0;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        const c = light ? "90,58,232" : p.color;
+        ctx.fillStyle = `rgba(${c},${light ? p.opacity * 0.6 : p.opacity})`; ctx.fill();
+      });
+      const lc = light ? "90,58,232" : "105,68,255";
+      for (let i = 0; i < ps.length; i++) {
+        for (let j = i + 1; j < ps.length; j++) {
+          const dx = ps[i].x - ps[j].x, dy = ps[i].y - ps[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath(); ctx.moveTo(ps[i].x, ps[i].y); ctx.lineTo(ps[j].x, ps[j].y);
+            ctx.strokeStyle = `rgba(${lc},${(light ? 0.08 : 0.06) * (1 - dist / 120)})`;
+            ctx.lineWidth = 0.5; ctx.stroke();
+          }
+        }
+      }
+      raf = requestAnimationFrame(animate);
+    };
+    animate();
+
+    // Scroll parallax for grid, orbs, geos
     const handleScroll = () => {
       const s = window.scrollY;
-      const o1 = document.querySelector<HTMLElement>(".hero-orb-1");
-      const o2 = document.querySelector<HTMLElement>(".hero-orb-2");
-      const o3 = document.querySelector<HTMLElement>(".hero-orb-3");
-      if (o1) o1.style.transform = `translate(${s * 0.05}px, ${s * 0.1}px)`;
-      if (o2) o2.style.transform = `translate(${-s * 0.08}px, ${-s * 0.06}px)`;
-      if (o3) o3.style.transform = `translate(${s * 0.03}px, ${-s * 0.12}px)`;
+      const progress = Math.min(1, s / window.innerHeight);
+      const grid = document.getElementById("gridPlane");
+      const orb1 = document.getElementById("glowOrb1");
+      const orb2 = document.getElementById("glowOrb2");
+      const orb3 = document.getElementById("glowOrb3");
+      if (grid) { grid.style.backgroundPosition = `0 ${progress * 200}px`; grid.style.opacity = String(Math.max(0.3, 1 - progress * 0.7)); }
+      if (orb1) orb1.style.transform = `translate(${progress * 60}px, ${progress * 40}px)`;
+      if (orb2) orb2.style.transform = `translate(${-progress * 50}px, ${-progress * 30}px)`;
+      if (orb3) orb3.style.transform = `translate(${progress * 30}px, ${-progress * 50}px) scale(${1 + progress * 0.3})`;
+      document.querySelectorAll<HTMLElement>(".geo-shape").forEach((g, i) => {
+        const speed = (i + 1) * 15;
+        const rot = (i % 2 === 0 ? 1 : -1) * progress * 90;
+        g.style.transform = `translateY(${-progress * speed}px) rotate(${rot + i * 20}deg)`;
+        g.style.opacity = String(Math.max(0.1, 0.3 - progress * 0.3));
+      });
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); window.removeEventListener("scroll", handleScroll); };
   }, []);
 
   /* ── Horizontal drag scroll ── */
@@ -667,12 +730,22 @@ export default function HomePage() {
 
       {/* HERO */}
       <section className="hero" ref={heroRef}>
-        <div className="hero-bg">
-          <div className="hero-orb hero-orb-1" />
-          <div className="hero-orb hero-orb-2" />
-          <div className="hero-orb hero-orb-3" />
-          <div className="hero-grid" />
+        <div className="hero-sky" />
+        <div id="heroGrid" style={{ position: "absolute", bottom: 0, left: "-20%", width: "140%", height: "50%", zIndex: 2, perspective: 400, overflow: "hidden" }}>
+          <div id="gridPlane" style={{ width: "100%", height: "200%", transform: "rotateX(65deg)", transformOrigin: "center top", backgroundImage: "linear-gradient(rgba(105,68,255,0.15) 1px,transparent 1px),linear-gradient(90deg,rgba(105,68,255,0.15) 1px,transparent 1px)", backgroundSize: "60px 60px" }} />
         </div>
+        <canvas ref={canvasRef} style={{ position: "absolute", inset: 0, zIndex: 3, pointerEvents: "none" }} />
+        <div style={{ position: "absolute", inset: 0, zIndex: 4, pointerEvents: "none", overflow: "hidden" }}>
+          <div className="geo-shape" style={{ position: "absolute", top: "15%", left: "12%", width: 60, height: 60, border: "1px solid rgba(105,68,255,0.3)", borderRadius: "50%" }} />
+          <div className="geo-shape" style={{ position: "absolute", top: "25%", right: "15%", width: 40, height: 40, border: "1px solid rgba(68,221,255,0.25)", transform: "rotate(45deg)" }} />
+          <div className="geo-shape" style={{ position: "absolute", top: "60%", left: "8%", width: 80, height: 80, border: "1px solid rgba(255,107,157,0.2)", borderRadius: 12, transform: "rotate(20deg)" }} />
+          <div className="geo-shape" style={{ position: "absolute", top: "20%", left: "70%", width: 50, height: 50, border: "1px solid rgba(105,68,255,0.2)", borderRadius: "50%" }} />
+          <div className="geo-shape" style={{ position: "absolute", top: "70%", right: "10%", width: 35, height: 35, border: "1px solid rgba(68,221,255,0.2)", transform: "rotate(30deg)" }} />
+        </div>
+        <div id="glowOrb1" style={{ position: "absolute", width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle,rgba(105,68,255,0.25) 0%,transparent 70%)", top: "-5%", right: "-5%", zIndex: 1, filter: "blur(60px)" }} />
+        <div id="glowOrb2" style={{ position: "absolute", width: 300, height: 300, borderRadius: "50%", background: "radial-gradient(circle,rgba(68,221,255,0.15) 0%,transparent 70%)", bottom: "20%", left: "-5%", zIndex: 1, filter: "blur(60px)" }} />
+        <div id="glowOrb3" style={{ position: "absolute", width: 250, height: 250, borderRadius: "50%", background: "radial-gradient(circle,rgba(255,107,157,0.12) 0%,transparent 70%)", top: "40%", left: "40%", zIndex: 1, filter: "blur(60px)" }} />
+        <div style={{ position: "absolute", inset: 0, zIndex: 5, pointerEvents: "none", background: "repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.01) 3px,rgba(255,255,255,0.01) 4px)" }} />
         <div className="hero-content">
           <img
             src={delianAvatar.src}
