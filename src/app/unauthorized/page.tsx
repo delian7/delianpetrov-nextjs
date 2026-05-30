@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 function UnauthorizedContent() {
   const searchParams = useSearchParams();
@@ -156,7 +157,7 @@ function UnauthorizedContent() {
           </button>
         </form>
 
-        <a
+        <Link
           href="/"
           style={{
             display: "inline-block",
@@ -170,7 +171,7 @@ function UnauthorizedContent() {
           onMouseLeave={(e) => (e.currentTarget.style.color = "var(--text-muted, #55556a)")}
         >
           ← Back to portfolio
-        </a>
+        </Link>
       </div>
     </div>
   );
