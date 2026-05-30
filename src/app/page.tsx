@@ -504,7 +504,7 @@ function ContactForm() {
     const data = Object.fromEntries(new FormData(form));
 
     try {
-      await fetch("/api/contact", {
+      await fetch("https://dhdmjop4ywcsbgyiwncrg4amdi0ksjqm.lambda-url.us-east-2.on.aws", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
