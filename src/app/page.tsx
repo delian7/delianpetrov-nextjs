@@ -26,7 +26,7 @@ import wanderfulHero from "../images/wanderfultanzania/safari3.png";
 import fridgeGuideLogo from "../images/fridgeguide/fridgeguide_logo.png";
 import metroGroupLogo from "../images/metrogroup/logo.png";
 import seastatusLogo from "../images/seastatus_logo.png";
-import visageLogo from "../images/visage_logo_white.png";
+import visageLogo from "../images/visage_logo.png";
 import wanderfulLogo from "../images/wanderfultanzania/wanderful-tanzania-logo-white.png";
 
 // Project screenshots
