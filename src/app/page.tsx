@@ -339,20 +339,22 @@ function ProjectModal({
             </div>
             <div
               className="modal-hero-banner"
-              style={{
-                background: `${project.gradient}, url(${project.heroImage}) center/cover`,
-                backgroundBlendMode: "overlay",
-              }}
+              style={{ backgroundImage: `url(${project.heroImage})`, backgroundSize: "cover", backgroundPosition: "center" }}
             >
-              <img
-                src={project.logo}
-                alt={project.title}
-                style={{ height: 64, objectFit: "contain", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.3))", opacity: 0.9 }}
-              />
+              <div className="project-hero-overlay" style={{ background: project.gradient }} />
             </div>
             <div className="modal-content" ref={contentRef}>
-              <div className="modal-tag">{project.tag}</div>
-              <h2 className="modal-title">{project.title}</h2>
+              <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 16, marginBottom: 8 }}>
+                <div>
+                  <div className="modal-tag">{project.tag}</div>
+                  <h2 className="modal-title">{project.title}</h2>
+                </div>
+                <img
+                  src={project.logo}
+                  alt={project.title}
+                  style={{ height: 75, objectFit: "contain", flexShrink: 0, marginTop: 4 }}
+                />
+              </div>
               <p className="modal-subtitle">{project.subtitle}</p>
 
               <div className="modal-role-badge">
@@ -738,21 +740,23 @@ export default function HomePage() {
               <div className="project-hero">
                 <div
                   className="project-hero-inner"
-                  style={{
-                    background: `${p.gradient}, url(${p.heroImage}) center/cover`,
-                    backgroundBlendMode: "overlay",
-                  }}
+                  style={{ backgroundImage: `url(${p.heroImage})` }}
                 >
-                  <img
-                    src={p.logo}
-                    alt={p.title}
-                    style={{ height: 48, objectFit: "contain", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.3))", opacity: 0.9 }}
-                  />
+                  <div className="project-hero-overlay" style={{ background: p.gradient }} />
                 </div>
               </div>
               <div className="project-body">
-                <div className="project-tag">{p.tag}</div>
-                <div className="project-name">{p.title}</div>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                  <div>
+                    <div className="project-tag">{p.tag}</div>
+                    <div className="project-name">{p.title}</div>
+                  </div>
+                  <img
+                    src={p.logo}
+                    alt={p.title}
+                    style={{ height: 52, objectFit: "contain", flexShrink: 0 }}
+                  />
+                </div>
                 <div className="project-desc">{p.description}</div>
                 <div className="project-techs">
                   {p.techs.map((t) => (<span className="tech-pill" key={t}>{t}</span>))}
