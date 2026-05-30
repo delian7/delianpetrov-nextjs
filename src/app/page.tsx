@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef, useState, useCallback } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -414,6 +415,82 @@ function ProjectModal({
   );
 }
 
+/* ─── RESUME MODAL ─── */
+
+const RESUME_PDF_ID = "1v_0nUb3ROf64cBAjJzVWqS7zLsuzDT6u";
+
+function ResumeModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    if (open) window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [open, onClose]);
+
+  useEffect(() => {
+    if (open) document.body.classList.add("modal-open");
+    else document.body.classList.remove("modal-open");
+    return () => document.body.classList.remove("modal-open");
+  }, [open]);
+
+  return (
+    <>
+      <div className={`modal-overlay ${open ? "active" : ""}`} onClick={onClose} />
+      <div className={`modal-container ${open ? "active" : ""}`} style={{ width: "min(900px, 95vw)" }}>
+        {open && (
+          <>
+            <div className="modal-close">
+              <span className="modal-close-label">Resume</span>
+              <button className="modal-close-btn" onClick={onClose}>&times;</button>
+            </div>
+            <div style={{ padding: "24px 32px 16px", display: "flex", gap: 12, justifyContent: "center" }}>
+              <a
+                href={`https://drive.google.com/uc?export=download&id=${RESUME_PDF_ID}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+                style={{ fontSize: 14, padding: "10px 24px", display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Download PDF
+              </a>
+              <a
+                href={`https://drive.google.com/file/d/${RESUME_PDF_ID}/view`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary"
+                style={{ fontSize: 14, padding: "10px 24px", display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+                Open in Drive
+              </a>
+            </div>
+            <div style={{ padding: "0 32px 32px", height: "calc(100vh - 140px)" }}>
+              <iframe
+                title="Delian Petrov Resume"
+                src={`https://drive.google.com/file/d/${RESUME_PDF_ID}/preview`}
+                width="100%"
+                height="100%"
+                allow="autoplay"
+                style={{ border: "none", borderRadius: 12, background: "var(--bg, #0a0a0a)" }}
+              />
+            </div>
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+
 /* ─── CONTACT FORM ─── */
 
 function ContactForm() {
@@ -480,6 +557,7 @@ function ContactForm() {
 export default function HomePage() {
   const heroRef = useRef<HTMLElement>(null);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [resumeOpen, setResumeOpen] = useState(false);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
@@ -615,7 +693,7 @@ export default function HomePage() {
           </p>
           <div className="hero-cta">
             <button className="btn-primary" onClick={() => scrollTo("contact")}>Get in Touch</button>
-            <button className="btn-secondary" onClick={() => scrollTo("projects")}>View Work</button>
+            <button className="btn-secondary" onClick={() => setResumeOpen(true)}>View Resume</button>
           </div>
         </div>
         <div className="scroll-indicator"><div className="scroll-line" /></div>
@@ -732,6 +810,7 @@ export default function HomePage() {
 
       {/* MODAL */}
       <ProjectModal project={activeProject} onClose={closeModal} onScreenshotClick={openLightbox} />
+      <ResumeModal open={resumeOpen} onClose={() => setResumeOpen(false)} />
 
       {/* LIGHTBOX */}
       {lightboxImages.length > 0 && (
