@@ -155,11 +155,27 @@ nav ul li a:hover { color: var(--text-primary); }
 .timeline-company { font-size: 14px; color: var(--text-secondary); }
 
 .timeline-logo {
-  width: 52px; height: 52px; border-radius: 12px; object-fit: contain;
-  position: absolute; left: -115px; top: -10px;
+  width: 60px; height: 60px; border-radius: 12px; object-fit: contain;
+  position: absolute; left: -108px; top: -18px;
   background: var(--bg-elevated); border: 1px solid var(--border-glass); padding: 6px;
 }
 .timeline-logo.no-bg { background: none; border: none; padding: 0; }
+
+.timeline-item.clickable { cursor: pointer; transition: transform 0.3s ease, background 0.3s ease; border-radius: 12px; padding: 16px 48px 16px 8px; margin: -16px -48px -16px -8px; position: relative; }
+.timeline-item.clickable::before { top: 22px; left: -36px; }
+.timeline-item.clickable.milestone::before { top: 21px; left: -37px; }
+.timeline-item.clickable .timeline-logo { top: -2px; left: -100px; margin-left: -1em; }
+.timeline-item.clickable:hover { transform: translateX(6px); background: rgba(105,68,255,0.06); }
+html.light .timeline-item.clickable:hover { background: rgba(90,58,232,0.06); }
+.timeline-chevron { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 24px; color: var(--accent); opacity: 0; transition: opacity 0.3s, transform 0.3s; }
+.timeline-item.clickable:hover .timeline-chevron { opacity: 1; transform: translateY(-50%) translateX(4px); }
+
+@media (max-width: 768px) {
+  .timeline-item.clickable { padding: 14px 36px 14px 4px; margin: -14px -36px -14px -4px; }
+  .timeline-item.clickable:hover { transform: none; }
+  .timeline-chevron { opacity: 0.4; right: 8px; }
+  .timeline-item.clickable:active { background: rgba(105,68,255,0.08); }
+}
 
 /* ─── CONTACT ─── */
 .contact-section { padding: 120px 48px 160px; text-align: center; }
@@ -248,7 +264,16 @@ html.light .modal-overlay { background: rgba(0,0,0,0.4); }
   .stat-item:nth-child(3), .stat-item:nth-child(4) { border-top: 1px solid var(--border); }
   .projects-track { padding: 0 24px 80px; }
   .timeline-section { padding: 0 24px 80px; }
-  .timeline-logo { display: none; }
+  .timeline { padding-left: 48px; }
+  .timeline::before { left: 8px; }
+  .timeline-item::before { left: -44px; top: 6px; }
+  .timeline-item.milestone::before { left: -39px; top: 5px; }
+  .timeline-logo { left: auto; right: 0; top: 4px; width: 36px; height: 36px; padding: 4px; border-radius: 8px; }
+  .timeline-item.clickable { padding: 12px 56px 12px 8px; margin: -12px -8px -12px -8px; }
+  .timeline-item.clickable::before { left: -37px; }
+  .timeline-item.clickable.milestone::before { left: -39px; }
+  .timeline-item.clickable .timeline-logo { right: 8px; top: 10px; margin-left: 52px; }
+  /* .timeline-chevron { display: none; } */
   .contact-section { padding: 80px 24px 140px; }
   .contact-card { padding: 32px 24px; }
   .form-row { grid-template-columns: 1fr; }

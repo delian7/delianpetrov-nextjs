@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef, useState, useCallback } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -83,6 +84,9 @@ interface TimelineEntry {
   logoSrc: string;
   noBg?: boolean;
   milestone?: boolean;
+  description?: string;
+  highlights?: string[];
+  skills?: string[];
 }
 
 /* ─── DATA (sourced from repo modal components) ─── */
@@ -208,16 +212,84 @@ const projects: Project[] = [
 ];
 
 const timeline: TimelineEntry[] = [
-  { year: "2025", role: "Senior Software Engineer", company: "Meta", logoSrc: metaLogo.src, milestone: true },
-  { year: "2024", role: "Principal Software Engineer", company: "FridgeGuide AI", logoSrc: fridgeGuideLogo.src },
-  { year: "2022", role: "Senior Software Engineer", company: "SalonInteractive", logoSrc: salonLogo.src, noBg: true },
-  { year: "2020", role: "Senior Software Engineer", company: "Cryoport", logoSrc: cryoportLogo.src, noBg: true },
-  { year: "2018", role: "Senior Software Engineer", company: "LegalShield", logoSrc: legalshieldLogo.src, noBg: true },
-  { year: "2016", role: "Co-Founder / Lead Engineer", company: "SeaStatus", logoSrc: seastatusLogo.src },
-  { year: "2015", role: "Full Stack Engineer", company: "Visage", logoSrc: visageLogo.src },
-  { year: "2015", role: "B.S. Informatics", company: "University of California, Irvine", logoSrc: uciLogo.src, noBg: true, milestone: true },
-  { year: "2014", role: "Google Student Ambassador", company: "UC Irvine", logoSrc: gsaLogo.src, noBg: true },
-  { year: "2012", role: "Lead Technician", company: "AntTech Repair Center @ UCI", logoSrc: anttechLogo.src, noBg: true },
+  { year: "2025", role: "Senior Software Engineer", company: "Meta", logoSrc: metaLogo.src, milestone: true,
+    description: "Monetization Team at Meta. After 73 companies, ~200 interviews, and 6 months of preparation, joined Meta as a Senior Software Engineer working on monetization infrastructure at scale.",
+    highlights: ["Working on the Monetization Team building revenue-driving product infrastructure", "Joined after an intensive 6-month interview journey across 73 companies"],
+    skills: ["iOS", "SQL", "React", "TypeScript", "GraphQL"],
+  },
+  { year: "2024", role: "Co-Founder, Principal Software Engineer", company: "FridgeGuide AI", logoSrc: fridgeGuideLogo.src,
+    description: "Oversaw designing, developing, and implementing AI-driven features and scalable backend infrastructure for a grocery and meal planning mobile application, improving user engagement by 40%.",
+    highlights: [
+      "Implemented AI response streaming for real-time voice and receipt scanning using ChatGPT 4o, reducing user wait time by 80% through chunked delivery",
+      "Developed custom AI prompts achieving a 95% success rate in identifying and categorizing groceries",
+      "Showcased at the UN AI for Good Global Summit in Geneva, Switzerland",
+      "Featured on the Foreign Founders podcast and interviewed for the #I_make_AI campaign",
+      "Launched on the App Store with React Native",
+    ],
+    skills: ["Ruby on Rails", "React Native", "Azure", "Eden AI", "ChatGPT Streaming", "Firebase"],
+  },
+  { year: "2022", role: "Senior Software Engineer", company: "SalonInteractive", logoSrc: salonLogo.src, noBg: true,
+    description: "Key player in both backend and frontend for a $1.2M business software solution company serving the professional beauty industry, improving application response times by 60%.",
+    highlights: [
+      "Transitioned infrastructure from Google Cloud to Heroku, reducing response times by 25% and increasing throughput by 40% during peak loads",
+      "Directed migration of legacy code to Rails 6.0 with Webpacker, reducing boot time by 22% and server response time by 15%",
+      "Designed subscription management system with Stripe, leading to $600/month revenue increase",
+      "Established CircleCI automated testing suite, increasing code coverage from 78% to 89% and reducing post-deployment bugs by 25%",
+    ],
+    skills: ["Ruby on Rails", "React", "Alpine.js", "Stripe", "CircleCI", "K6"],
+  },
+  { year: "2020", role: "Software Engineer", company: "Cryoport", logoSrc: cryoportLogo.src, noBg: true,
+    description: "Senior engineer for a $233M supply chain solutions company, implementing tracking systems integrating 4G and GPS-enabled devices for cryogenic shipments, improving reliability by 40%.",
+    highlights: [
+      "Built robust tracking system integrating 4G and GPS-enabled devices for cryogenic shipments",
+      "Elevated to interim Scrum Master within 7 months, improving sprint velocity and burn-down performance by 30%",
+      "Spearheaded JIRA linter GitHub Action preventing PR merges with missing fields, reducing communication errors by 43%",
+    ],
+    skills: ["JavaScript", "React", "OOP", "Data Modeling", "Scrum"],
+  },
+  { year: "2018", role: "Senior Software Engineer", company: "LegalShield", logoSrc: legalshieldLogo.src, noBg: true,
+    description: "Integrated and optimized Elastic Search for over 11M users and 7M legal service requests, reducing average search time by 60% from 3 seconds to 1.2 seconds.",
+    highlights: [
+      "Optimized Elastic Search for 11M+ users, reducing search time by 60% (3s → 1.2s) and boosting satisfaction scores by 25%",
+      "Introduced OKTA SSO OAuth2 strategy serving 50 partner firms, reducing login-related support tickets by 40% with 99.9% uptime",
+    ],
+    skills: ["Ruby on Rails", "Elastic Search", "OAuth2", "OKTA SSO"],
+  },
+  { year: "2016", role: "Co-Founder / Lead Engineer", company: "SeaStatus", logoSrc: seastatusLogo.src,
+    description: "Launched the MVP in 4 months for a marine weather data aggregation platform, driving a 290% increase in monthly active users (2.9K within 18 months).",
+    highlights: [
+      "290% increase in monthly active users — 2.9K within 18 months",
+      "Secured $25K by winning 2 categories in the Xprize Big Ocean Button Challenge",
+      "Improved weather prediction accuracy by 35% by integrating multiple data sets",
+      "Successful exit — acquired by Sofar Ocean Technologies",
+    ],
+    skills: ["Ruby on Rails", "Ionic", "Google Cloud", "Firebase", "NOAA API"],
+  },
+  { year: "2015", role: "Full Stack Engineer", company: "Visage", logoSrc: visageLogo.src,
+    description: "Championed an enterprise solution for mapping user text and charts onto Google Sheets, leading to adoption by LinkedIn offices in the US, UK, and India, generating over 100 monthly workforce reports.",
+    highlights: [
+      "Adopted by LinkedIn offices in US, UK, and India generating 100+ monthly state and national workforce reports",
+      "Evaluated in-house Selenium grid with AWS Docker Containers and Lambda, storing assets on S3",
+      "Designed persistent download tracker using pub/sub and browser session storage",
+      "Utilized FabricJS to create custom SVG shape/polygon editor",
+      "Automated graphic asset delivery to third-party services via Zapier",
+    ],
+    skills: ["Ruby on Rails", "AWS S3", "AWS Lambda", "Knockout.js", "FabricJS", "Selenium"],
+  },
+  { year: "2015", role: "B.S. Informatics", company: "University of California, Irvine", logoSrc: uciLogo.src, noBg: true, milestone: true,
+    description: "Graduated with a Bachelor of Science in Informatics with a Minor in Management from the University of California, Irvine.",
+  },
+  { year: "2014", role: "Google Student Ambassador", company: "UC Irvine", logoSrc: gsaLogo.src, noBg: true,
+    description: "Selected as a Google Student Ambassador at UC Irvine, representing Google on campus and organizing tech events for the student community.",
+  },
+  { year: "2012", role: "Lead Technician", company: "AntTech Repair Center @ UCI", logoSrc: anttechLogo.src, noBg: true,
+    description: "Oversaw 30 machines and reported to five managers. Led dynamic technical projects for university bookstore and maintained in-house computer integrity under strict campus firewall regulations.",
+    highlights: [
+      "Maintained and provided backup for Linux and macOS-based server systems through CRON shell scripts",
+      "Earned certification as Apple Macintosh Technician for Mac, Windows, and Linux-based PCs",
+      "Developed roadmap for other student technicians",
+    ],
+  },
 ];
 
 /* ─── THEME TOGGLE ─── */
@@ -352,7 +424,7 @@ function ProjectModal({
                 <img
                   src={project.logo}
                   alt={project.title}
-                  style={{ height: 75, objectFit: "contain", flexShrink: 0, marginTop: 4 }}
+                  style={{ height: 48, objectFit: "contain", flexShrink: 0, marginTop: 4 }}
                 />
               </div>
               <p className="modal-subtitle">{project.subtitle}</p>
@@ -492,6 +564,82 @@ function ResumeModal({ open, onClose }: { open: boolean; onClose: () => void }) 
   );
 }
 
+/* ─── TIMELINE MODAL ─── */
+
+function TimelineModal({ entry, onClose }: { entry: TimelineEntry | null; onClose: () => void }) {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (entry && contentRef.current) {
+      gsap.fromTo(contentRef.current.children, { opacity: 0, y: 20 }, { opacity: 1, y: 0, stagger: 0.06, duration: 0.5, delay: 0.2, ease: "power2.out" });
+    }
+  }, [entry]);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [onClose]);
+
+  useEffect(() => {
+    document.body.classList.toggle("modal-open", !!entry);
+    return () => document.body.classList.remove("modal-open");
+  }, [entry]);
+
+  return (
+    <>
+      <div className={`modal-overlay ${entry ? "active" : ""}`} onClick={onClose} />
+      <div className={`modal-container ${entry ? "active" : ""}`}>
+        {entry && (
+          <>
+            <div className="modal-close">
+              <span className="modal-close-label">Experience</span>
+              <button className="modal-close-btn" onClick={onClose}>&times;</button>
+            </div>
+            <div style={{ padding: "32px 40px 16px", display: "flex", alignItems: "center", gap: 20 }}>
+              <img
+                src={entry.logoSrc}
+                alt={entry.company}
+                className={entry.noBg ? "timeline-logo no-bg" : "timeline-logo"}
+                style={{ position: "relative", left: "auto", top: "auto" }}
+              />
+              <div>
+                <div className="modal-tag">{entry.year}</div>
+                <h2 className="modal-title" style={{ fontSize: 28 }}>{entry.role}</h2>
+                <p style={{ color: "var(--text-secondary)", fontSize: 15, marginTop: 4 }}>{entry.company}</p>
+              </div>
+            </div>
+            <div className="modal-content" ref={contentRef} style={{ paddingTop: 24 }}>
+              {entry.description && (
+                <div className="modal-section">
+                  <div className="modal-section-title">Overview</div>
+                  <p>{entry.description}</p>
+                </div>
+              )}
+              {entry.highlights && entry.highlights.length > 0 && (
+                <div className="modal-section">
+                  <div className="modal-section-title">Highlights</div>
+                  <ul className="modal-highlights">
+                    {entry.highlights.map((h) => (<li key={h}>{h}</li>))}
+                  </ul>
+                </div>
+              )}
+              {entry.skills && entry.skills.length > 0 && (
+                <div className="modal-section">
+                  <div className="modal-section-title">Skills & Tech</div>
+                  <div className="modal-tech-grid">
+                    {entry.skills.map((s) => (<span className="modal-tech-item" key={s}>{s}</span>))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+
 /* ─── CONTACT FORM ─── */
 
 function ContactForm() {
@@ -504,7 +652,7 @@ function ContactForm() {
     const data = Object.fromEntries(new FormData(form));
 
     try {
-      await fetch("/api/contact", {
+      await fetch("https://dhdmjop4ywcsbgyiwncrg4amdi0ksjqm.lambda-url.us-east-2.on.aws", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -559,6 +707,7 @@ export default function HomePage() {
   const heroRef = useRef<HTMLElement>(null);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [resumeOpen, setResumeOpen] = useState(false);
+  const [activeTimeline, setActiveTimeline] = useState<TimelineEntry | null>(null);
   const [lightboxImages, setLightboxImages] = useState<string[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
@@ -827,7 +976,7 @@ export default function HomePage() {
                   <img
                     src={p.logo}
                     alt={p.title}
-                    style={{ height: 52, objectFit: "contain", flexShrink: 0 }}
+                    style={{ height: 36, objectFit: "contain", flexShrink: 0 }}
                   />
                 </div>
                 <div className="project-desc">{p.description}</div>
@@ -851,7 +1000,11 @@ export default function HomePage() {
       <section className="timeline-section">
         <div className="timeline">
           {timeline.map((t, i) => (
-            <div className={`timeline-item ${t.milestone ? "milestone" : ""}`} key={`${t.year}-${i}`}>
+            <div
+              className={`timeline-item ${t.milestone ? "milestone" : ""} ${t.description ? "clickable" : ""}`}
+              key={`${t.year}-${i}`}
+              onClick={() => t.description && setActiveTimeline(t)}
+            >
               <img
                 className={`timeline-logo ${t.noBg ? "no-bg" : ""}`}
                 src={t.logoSrc}
@@ -860,6 +1013,7 @@ export default function HomePage() {
               <div className="timeline-year">{t.year}</div>
               <div className="timeline-role">{t.role}</div>
               <div className="timeline-company">{t.company}</div>
+              {t.description && <span className="timeline-chevron">&#8250;</span>}
             </div>
           ))}
         </div>
@@ -887,6 +1041,7 @@ export default function HomePage() {
       {/* MODAL */}
       <ProjectModal project={activeProject} onClose={closeModal} onScreenshotClick={openLightbox} />
       <ResumeModal open={resumeOpen} onClose={() => setResumeOpen(false)} />
+      <TimelineModal entry={activeTimeline} onClose={() => setActiveTimeline(null)} />
 
       {/* LIGHTBOX */}
       {lightboxImages.length > 0 && (
