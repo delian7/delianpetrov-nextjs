@@ -104,7 +104,7 @@ export default async function NotionEmbedPage({
         }
         .notion-notepad {
           flex: 1; display: flex; flex-direction: column;
-          margin: 1em 10em 0 10em;
+          margin: 10px 48px 48px;
           background: var(--bg-elevated, #141416);
           border: 1px solid var(--border-glass, rgba(255,255,255,0.1));
           border-radius: 20px;
