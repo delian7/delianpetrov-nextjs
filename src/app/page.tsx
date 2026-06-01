@@ -291,6 +291,46 @@ const timeline: TimelineEntry[] = [
   },
 ];
 
+/* ─── TESTIMONIALS DATA ─── */
+
+const testimonials = [
+  {
+    initials: "MC",
+    name: "Marta Chodulski-Squires",
+    role: "Staff Technical Recruiter at TwelveLabs",
+    context: "Worked together at Meta",
+    quote: 'He was truly an exceptional candidate to partner with. Delian impressed me with his preparation, communication, and steady professionalism. He is not only technically strong, but he brings a thoughtful, collaborative mindset that any team would be lucky to have.',
+  },
+  {
+    initials: "RA",
+    name: "Rob Abney",
+    role: "GTM Strategy & Brand Leader",
+    context: "Worked together at SalonInteractive",
+    quote: "Delian's technical expertise and problem-solving skills played a key role in building a platform that is both scalable and user-friendly. His impact wasn't just in development — he also contributed to our get-things-done mindset, ensuring the engineering team delivered high-quality work aligned with our business goals.",
+  },
+  {
+    initials: "VH",
+    name: "Vanessa Holland",
+    role: "Engineering Manager",
+    context: "Managed Delian at LegalShield",
+    quote: 'He is able to bridge the gap between business requirements and engineering best practices. His "solve anything" attitude paired with his breadth of knowledge and ability to express his opinions in a humble yet assertive manner makes him emerge as a natural leader on any team.',
+  },
+  {
+    initials: "RC",
+    name: "Ross Crooks",
+    role: "Co-founder @ Column Five",
+    context: "Worked together at Visage",
+    quote: "He possesses a rare mix of curiosity, excitement and confidence that makes working with him a joy. He's a strong communicator, always willing to shoot straight. I would highly recommend him as a strong addition to any team.",
+  },
+  {
+    initials: "SP",
+    name: "Sean Parent",
+    role: "Senior Software Developer",
+    context: "Worked together at Visage",
+    quote: 'If I had to use one word to describe him, it would be "balanced." He strikes a wonderful balance between assertiveness and humility. In the constant tug-of-war between shipping quickly and crafting perfect code, he\'s able to play either side the situation calls for. He\'s proven equally adept at navigating front-end and back-end — a rare feat.',
+  },
+];
+
 /* ─── THEME TOGGLE ─── */
 
 function ThemeToggle() {
@@ -1013,6 +1053,32 @@ export default function HomePage() {
               <div className="timeline-role">{t.role}</div>
               <div className="timeline-company">{t.company}</div>
               {t.description && <span className="timeline-chevron">&#8250;</span>}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <div>
+        <div className="section-header">
+          <div className="section-eyebrow">Testimonials</div>
+          <h2 className="section-title">What people say</h2>
+        </div>
+      </div>
+
+      <section className="testimonials-section">
+        <div className="testimonials-track">
+          {testimonials.map((t) => (
+            <div className="testimonial-card" key={t.name}>
+              <p className="testimonial-quote">{t.quote}</p>
+              <div className="testimonial-author">
+                <div className="testimonial-avatar">{t.initials}</div>
+                <div>
+                  <div className="testimonial-name">{t.name}</div>
+                  <div className="testimonial-role">{t.role}</div>
+                </div>
+              </div>
+              <div className="testimonial-context">{t.context}</div>
             </div>
           ))}
         </div>
