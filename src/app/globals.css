@@ -284,7 +284,8 @@ html.light .modal-overlay { background: rgba(0,0,0,0.4); }
   .timeline::before { left: 8px; }
   .timeline-item::before { left: -44px; top: 6px; }
   .timeline-item.milestone::before { left: -45px; top: 5px; }
-  .timeline-logo { left: auto; right: 0; top: 4px; width: 36px; height: 36px; padding: 4px; border-radius: 8px; }
+  .timeline-item .timeline-logo { display: none; }
+  .timeline-logo { left: auto; right: 0; top: 4px; padding: 4px; border-radius: 8px; }
   .timeline-item.clickable { padding: 12px 56px 12px 8px; margin: -12px -8px -12px -8px; }
   .timeline-item.clickable::before { left: -2.3em; }
   .timeline-item.clickable.milestone::before { left: -2.4em; }
