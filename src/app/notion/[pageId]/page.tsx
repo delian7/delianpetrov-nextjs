@@ -104,7 +104,7 @@ export default async function NotionEmbedPage({
         }
         .notion-notepad {
           flex: 1; display: flex; flex-direction: column;
-          margin: 24px 48px 48px;
+          margin: 1em 10em 0 10em;
           background: var(--bg-elevated, #141416);
           border: 1px solid var(--border-glass, rgba(255,255,255,0.1));
           border-radius: 20px;
@@ -146,15 +146,6 @@ export default async function NotionEmbedPage({
         </nav>
 
         <div className="notion-embed-area">
-          <div className="notion-embed-bar">
-            <Link href="/" className="notion-back">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-              Back to portfolio
-            </Link>
-            <span className="notion-badge">Notion Page</span>
-          </div>
           <div className="notion-notepad">
             <div className="notion-notepad-header">
               <div className="notion-notepad-dot" style={{ background: "#ff5f57" }} />
