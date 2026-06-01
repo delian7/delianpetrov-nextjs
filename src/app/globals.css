@@ -157,7 +157,8 @@ nav ul li a:hover { color: var(--text-primary); }
 .timeline-logo {
   width: 60px; height: 60px; border-radius: 12px; object-fit: contain;
   position: absolute; left: -108px; top: -18px;
-  background: var(--bg-elevated); border: 1px solid var(--border-glass); padding: 6px;
+  background: var(--bg-elevated); border: 1px solid var(--border-glass); 
+  margin-left: -0.5em;
 }
 .timeline-logo.no-bg { background: none; border: none; padding: 0; }
 
@@ -285,8 +286,8 @@ html.light .modal-overlay { background: rgba(0,0,0,0.4); }
   .timeline-item.milestone::before { left: -45px; top: 5px; }
   .timeline-logo { left: auto; right: 0; top: 4px; width: 36px; height: 36px; padding: 4px; border-radius: 8px; }
   .timeline-item.clickable { padding: 12px 56px 12px 8px; margin: -12px -8px -12px -8px; }
-  .timeline-item.clickable::before { left: -40px; }
-  .timeline-item.clickable.milestone::before { left: -41px; }
+  .timeline-item.clickable::before { left: -2.3em; }
+  .timeline-item.clickable.milestone::before { left: -2.4em; }
   .timeline-item.clickable .timeline-logo { right: 8px; top: 10px; }
   /* .timeline-chevron { display: none; } */
   .testimonials-track { padding: 0 24px; gap: 16px; }
