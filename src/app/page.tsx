@@ -85,7 +85,7 @@ interface TimelineEntry {
   noBg?: boolean;
   milestone?: boolean;
   description?: string;
-  highlights?: string[];
+  highlights?: React.ReactNode[];
   skills?: string[];
 }
 
@@ -238,9 +238,14 @@ const projects: Project[] = [
 
 const timeline: TimelineEntry[] = [
   { year: "2025", role: "Senior Software Engineer", company: "Meta", logoSrc: metaLogo.src, milestone: true,
-    description: "Monetization Team at Meta. After 73 companies, ~200 interviews, and 6 months of preparation, joined Meta as a Senior Software Engineer working on monetization infrastructure at scale.",
-    highlights: ["Working on the Monetization Team building revenue-driving product infrastructure", "Joined after an intensive 6-month interview journey across 73 companies"],
-    skills: ["iOS", "SQL", "React", "TypeScript", "GraphQL"],
+    description: "Monetization Team at Meta. Building AI-powered upsell experiences for Facebook and Messenger across iOS and Android, and a paygating feature controlling link-sharing volume in posts for creators and Pages — the latter covered by BBC News in December 2025. Joined after 73 companies, ~200 interviews, and 6 months of preparation.",
+    highlights: [
+      "Shipped AI-driven upsell flows for Facebook and Messenger on iOS and Android, surfacing Meta Verified subscription offers at high-intent moments",
+      "Built the Paygating FB/MBS Links in Posts feature — limiting free link-sharing in posts and gating higher volume behind a subscription, targeted at professional mode users and Pages",
+      <>Media coverage: <a href="https://www.bbc.com/news/articles/cp9kv3lezgro" target="_blank" rel="noopener noreferrer">BBC News</a>, <a href="https://techcrunch.com/2025/12/17/facebook-is-testing-a-link-posting-limit-for-professional-accounts-and-pages/" target="_blank" rel="noopener noreferrer">TechCrunch</a> (Meta confirmed directly), <a href="https://www.engadget.com/social-media/a-facebook-test-makes-link-sharing-a-paid-feature-for-creators-224632957.html" target="_blank" rel="noopener noreferrer">Engadget</a></>,
+      "Joined after an intensive 6-month interview journey across 73 companies and ~200 interviews",
+    ],
+    skills: ["iOS", "Android", "SQL", "React", "TypeScript", "GraphQL"],
   },
   { year: "2024", role: "Co-Founder, Principal Software Engineer", company: "FridgeGuide AI", logoSrc: fridgeGuideLogo.src,
     description: "Oversaw designing, developing, and implementing AI-driven features and scalable backend infrastructure for a grocery and meal planning mobile application, improving user engagement by 40%.",
@@ -685,7 +690,7 @@ function TimelineModal({ entry, onClose }: { entry: TimelineEntry | null; onClos
                 <div className="modal-section">
                   <div className="modal-section-title">Highlights</div>
                   <ul className="modal-highlights">
-                    {entry.highlights.map((h) => (<li key={h}>{h}</li>))}
+                    {entry.highlights.map((h, i) => (<li key={i}>{h}</li>))}
                   </ul>
                 </div>
               )}

@@ -230,6 +230,8 @@ html.light .timeline-item.clickable:hover { background: rgba(90,58,232,0.06); }
 .modal-highlights { list-style: none; }
 .modal-highlights li { position: relative; padding-left: 20px; font-size: 15px; color: var(--text-secondary); line-height: 1.75; margin-bottom: 8px; }
 .modal-highlights li::before { content: ''; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+.modal-highlights a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; transition: opacity 0.2s; }
+.modal-highlights a:hover { opacity: 0.75; }
 .modal-role-badge { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); font-size: 14px; color: var(--text-primary); }
 .modal-role-badge .role-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; font-family: var(--font-mono); margin-right: 8px; }
 .modal-link { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: 100px; background: var(--accent); color: white; font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.3s; box-shadow: 0 4px 20px var(--accent-glow); margin-top: 8px; }

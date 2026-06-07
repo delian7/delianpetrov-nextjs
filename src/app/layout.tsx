@@ -6,11 +6,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://delianpetrov.com"),
   title: "Delian Petrov | Senior Software Engineer",
   description:
-    "Senior Software Engineer at Meta. Building with React, TypeScript, and modern web technologies.",
+    "Senior Software Engineer on Meta's Monetization team. Building AI-powered upsell experiences for Facebook and Messenger on iOS and Android, and paygated link-sharing features for creators and Pages — as covered by BBC News.",
   openGraph: {
     title: "Delian Petrov | Senior Software Engineer at Meta",
     description:
-      "Senior Software Engineer building with React, TypeScript, and modern web technologies.",
+      "Senior Software Engineer at Meta building AI upsells for Facebook & Messenger (iOS/Android) and paygated link-sharing in posts. BBC News-covered work on Meta's Monetization team.",
     url: "https://delianpetrov.com",
     images: ["/avatar.jpg"],
   },
