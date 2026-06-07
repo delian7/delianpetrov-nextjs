@@ -309,3 +309,16 @@ html.light .modal-overlay { background: rgba(0,0,0,0.4); }
   .hero h1 { letter-spacing: -1.5px; }
   .stat-number { font-size: 36px; }
 }
+
+/* ─── LANDSCAPE MOBILE: prevent hero content from being clipped ─── */
+@media (orientation: landscape) and (max-height: 600px) {
+  .hero {
+    height: auto;
+    min-height: 100svh;
+    align-items: flex-start;
+  }
+  .hero-content {
+    padding-top: 80px;
+    padding-bottom: 40px;
+  }
+}
