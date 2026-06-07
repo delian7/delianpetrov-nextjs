@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 interface NotionData {
   title: string;
   description: string;
@@ -15,7 +17,7 @@ async function fetchNotionData(name: string, auth?: string): Promise<NotionData 
 
   const response = await fetch(
     `https://api.delianpetrov.com/short_links/?${params.toString()}`,
-    { next: { revalidate: 60 } }
+    { cache: "no-store" }
   );
 
   if (response.status === 401) {
