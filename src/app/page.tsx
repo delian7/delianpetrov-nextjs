@@ -21,6 +21,7 @@ import metroGroupHero from "../images/metrogroup/card.png";
 import seastatusHero from "../images/seastatus/new-home.png";
 import visageHero from "../images/visage/card.png";
 import wanderfulHero from "../images/wanderfultanzania/safari3.png";
+import spxDashboardChart from "../images/spx/spx_dashboard_chart.png";
 
 // Project logos
 import fridgeGuideLogo from "../images/fridgeguide/fridgeguide_logo.png";
@@ -43,6 +44,7 @@ import seastatusSofar from "../images/seastatus/sofar-product.png";
 import visageHeroFull from "../images/visage/hero.png";
 import visageColors from "../images/visage/visage-colors.png";
 import visageTemplates from "../images/visage/visage-templates.png";
+import spxDashboard from "../images/spx/spx_dashboard.png";
 
 // Timeline logos
 import metaLogo from "../images/meta_logo.png";
@@ -91,6 +93,31 @@ interface TimelineEntry {
 /* ─── DATA (sourced from repo modal components) ─── */
 
 const projects: Project[] = [
+  {
+    key: "spxdashboard",
+    monogram: "SPX",
+    gradient: "linear-gradient(135deg, rgba(6,78,59,0.88), rgba(16,185,129,0.62))",
+    tag: "FinTech",
+    title: "SPX Iron Condor Dashboard",
+    description: "Personal dashboard for trading SPX iron condors — live option chain via Schwab, P&L visualization, strike selection, and macro calendar",
+    techs: ["React", "TypeScript", "Schwab API"],
+    heroImage: spxDashboard.src,
+    logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23064e3b'/%3E%3Cpolyline points='8,34 16,24 24,28 32,16 40,20' fill='none' stroke='%2310b981' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='8' y1='38' x2='40' y2='38' stroke='%2310b981' stroke-width='1' opacity='0.4'/%3E%3C/svg%3E",
+    subtitle: "Personal trading dashboard for SPX iron condors",
+    role: "Creator",
+    overview:
+      "Built to replace the tab-switching I was doing between IBKR, OptionStrat, and a macro calendar every time I set up an iron condor. The dashboard pulls a live, authenticated options chain from Schwab's API, computes a market condition score from VIX level/rank, SPX trend, and IV rank, and overlays a P&L payoff diagram on the expiration you select. FOMC, CPI, and NFP events are mapped onto the calendar so it's obvious which expirations carry macro risk. SPX-only — Section 1256 tax treatment (60/40 long/short-term split) is a hard constraint, not an afterthought.",
+    screenshots: [spxDashboard.src],
+    highlights: [
+      "Live Schwab API integration for authenticated, real-time SPX option chain data",
+      "Market condition score from VIX level/rank, SPX 20-day trend, IV rank, and macro event proximity — green, yellow, or red",
+      "P&L payoff diagram with breakevens, 1σ expected move cone, probability of profit, and greeks per contract",
+      "FOMC, CPI, and NFP events mapped onto the expiration calendar — risky windows are flagged before you pick a strike",
+      "Strike input via % OTM, delta, or manual — toggle between modes without losing your setup",
+      "SPX-only: Section 1256 tax treatment (60/40 long/short-term split regardless of hold period) preserved by design",
+    ],
+    fullTech: ["React", "TypeScript", "Schwab API", "Chart.js", "Tailwind CSS", "Vite"],
+  },
   {
     key: "wanderfultanzania",
     monogram: "WT",
@@ -967,7 +994,7 @@ export default function HomePage() {
           {[
             { n: "11+", l: "Years Experience" },
             { n: "7", l: "Languages" },
-            { n: "5", l: "Shipped Products" },
+            { n: "6", l: "Shipped Products" },
             { n: "3", l: "Spoken Languages" },
           ].map((s) => (
             <div className="stat-item" key={s.l}>
