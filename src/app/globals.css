@@ -277,6 +277,7 @@ html.light .modal-overlay { background: rgba(0,0,0,0.4); }
   nav ul { gap: 20px; }
   nav ul li a { font-size: 12px; }
   .section-header { padding: 80px 24px 40px; }
+  .projects-track { touch-action: auto; cursor: default; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .stat-item:nth-child(2) { border-right: none; }
   .stat-item:nth-child(3), .stat-item:nth-child(4) { border-top: 1px solid var(--border); }
