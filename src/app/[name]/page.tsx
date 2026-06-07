@@ -88,44 +88,5 @@ export default async function DynamicPage({
     redirect("/");
   }
 
-  return <RedirectClient url={notionData.url} />;
-}
-
-function RedirectClient({ url }: { url: string }) {
-  return (
-    <>
-      <RedirectScript url={url} />
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "100vh",
-          background: "var(--bg, #0a0a0a)",
-        }}
-      >
-        <div
-          style={{
-            width: 48,
-            height: 48,
-            border: "4px solid rgba(255,255,255,0.1)",
-            borderTop: "4px solid #6944ff",
-            borderRadius: "50%",
-            animation: "spin 0.8s linear infinite",
-          }}
-        />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
-    </>
-  );
-}
-
-function RedirectScript({ url }: { url: string }) {
-  return (
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `setTimeout(function(){window.location.href="${url.replace(/"/g, '\\"')}"},500);`,
-      }}
-    />
-  );
+  redirect(notionData.url);
 }
