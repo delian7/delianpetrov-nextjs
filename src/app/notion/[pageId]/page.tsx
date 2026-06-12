@@ -157,6 +157,7 @@ export default async function NotionEmbedPage({
               src={notionUrl}
               allowFullScreen
               loading="lazy"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox"
             />
           </div>
         </div>
