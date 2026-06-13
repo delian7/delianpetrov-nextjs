@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 async function fetchNotionTitle(pageId: string): Promise<string | null> {
   try {
@@ -43,6 +45,16 @@ export default async function NotionEmbedPage({
 }) {
   const { pageId } = await params;
   const notionUrl = `https://delianpetrov.notion.site/ebd/${pageId}`;
+
+  // Notion's /ebd/ embed client assumes a mobile user-agent inside an
+  // iframe means it's running in Notion's native mobile app webview. It
+  // tries to talk to a native bridge that isn't there, hits a "restricted
+  // state" with no user ID, and re-bootstraps itself in an endless loop.
+  // Send mobile visitors straight to the normal Notion page instead.
+  const userAgent = (await headers()).get("user-agent") ?? "";
+  if (/Mobi|Android|iPhone|iPad|iPod/i.test(userAgent)) {
+    redirect(`https://delianpetrov.notion.site/${pageId}`);
+  }
 
   return (
     <>
