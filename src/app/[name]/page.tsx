@@ -32,6 +32,15 @@ async function fetchNotionData(name: string, auth?: string): Promise<NotionData 
     return { __unauthorized: true } as NotionData;
   }
 
+  if (!response.ok) {
+    return null;
+  }
+
+  const contentType = response.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/json")) {
+    return null;
+  }
+
   const data = await response.json();
 
   if (!data["url"]) {
