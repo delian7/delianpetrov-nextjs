@@ -33,17 +33,11 @@ async function fetchNotionData(name: string, auth?: string): Promise<NotionData 
   }
 
   if (!response.ok) {
-    console.error(
-      `[short_links] non-ok response for "${name}": status=${response.status} content-type=${response.headers.get("content-type")} body=${(await response.text()).slice(0, 200)}`
-    );
     return null;
   }
 
   const contentType = response.headers.get("content-type") ?? "";
   if (!contentType.includes("application/json")) {
-    console.error(
-      `[short_links] unexpected content-type for "${name}": status=${response.status} content-type=${contentType} body=${(await response.text()).slice(0, 200)}`
-    );
     return null;
   }
 
