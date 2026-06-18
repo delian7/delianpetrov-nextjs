@@ -1,5 +1,3 @@
-import { redirect } from "next/navigation";
-
 export const dynamic = "force-dynamic";
 
 interface NotionData {
@@ -24,12 +22,12 @@ async function fetchNotionData(name: string, auth?: string): Promise<NotionData 
     try {
       const body = await response.json();
       if (body && typeof body.prompt === "string") {
-        return { __unauthorized: true, prompt: body.prompt } as NotionData;
+        return { __unauthorized: true, prompt: body.prompt, title: body.title || "", description: body.description || "", image: body.image || "", url: "" };
       }
     } catch {
       // fall through
     }
-    return { __unauthorized: true } as NotionData;
+    return { __unauthorized: true, title: "", description: "", image: "", url: "" } as NotionData;
   }
 
   if (!response.ok) {
@@ -62,17 +60,54 @@ export async function generateMetadata({
   const notionData = await fetchNotionData(name, code);
 
   if (!notionData || notionData.__unauthorized) {
-    return { title: "Redirecting..." };
+    const title = notionData?.title || "Protected Link - Delian Petrov";
+    const description = notionData?.description || "This link is protected. Enter the passphrase to continue.";
+    const image = notionData?.image || "/avatar.jpg";
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        images: [image],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: [image],
+      },
+    };
   }
 
   return {
     title: notionData.title,
+    description: notionData.description,
     openGraph: {
       title: notionData.title,
       description: notionData.description,
       images: notionData.image ? [notionData.image] : [],
     },
+    twitter: {
+      card: "summary_large_image",
+      title: notionData.title,
+      description: notionData.description,
+      images: notionData.image ? [notionData.image] : [],
+    },
   };
+}
+
+function ClientRedirect({ url, delay = 0 }: { url: string; delay?: number }) {
+  return (
+    <>
+      <meta httpEquiv="refresh" content={`${delay};url=${url}`} />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `setTimeout(function(){window.location.replace(${JSON.stringify(url)});},${delay * 1000});`,
+        }}
+      />
+    </>
+  );
 }
 
 export default async function DynamicPage({
@@ -90,12 +125,47 @@ export default async function DynamicPage({
     const promptParam = notionData.prompt
       ? `&prompt=${encodeURIComponent(notionData.prompt)}`
       : "";
-    redirect(`/unauthorized?name=${encodeURIComponent(name)}${promptParam}`);
+    const unauthorizedUrl = `/unauthorized?name=${encodeURIComponent(name)}${promptParam}`;
+    return (
+      <html lang="en">
+        <head>
+          <ClientRedirect url={unauthorizedUrl} />
+        </head>
+        <body>
+          <p style={{ fontFamily: "system-ui", textAlign: "center", padding: "2rem" }}>
+            Redirecting...
+          </p>
+        </body>
+      </html>
+    );
   }
 
   if (!notionData) {
-    redirect("/");
+    return (
+      <html lang="en">
+        <head>
+          <ClientRedirect url="/" />
+        </head>
+        <body>
+          <p style={{ fontFamily: "system-ui", textAlign: "center", padding: "2rem" }}>
+            Redirecting...
+          </p>
+        </body>
+      </html>
+    );
   }
 
-  redirect(notionData.url);
+  return (
+    <html lang="en">
+      <head>
+        <ClientRedirect url={notionData.url} />
+      </head>
+      <body>
+        <p style={{ fontFamily: "system-ui", textAlign: "center", padding: "2rem" }}>
+          Redirecting to{" "}
+          <a href={notionData.url}>the linked resource</a>...
+        </p>
+      </body>
+    </html>
+  );
 }
