@@ -50,9 +50,25 @@ export default async function NotionEmbedPage({
   // iframe means it's running in Notion's native mobile app webview. It
   // tries to talk to a native bridge that isn't there, hits a "restricted
   // state" with no user ID, and re-bootstraps itself in an endless loop.
-  // Send mobile visitors straight to the normal Notion page instead.
+  //
+  // iPadOS 13+ desktop-class browsing makes iPad Safari report a
+  // Macintosh user agent (no "iPad" or "Mobi" token), so it slips past
+  // the traditional mobile check. We detect it two ways:
+  //   1. User-agent regex covering all known mobile/iPad tokens
+  //   2. "Macintosh" + "Safari" + no "Chrome" heuristic, which catches
+  //      desktop-mode iPad (Chrome on iPad includes "iPad" in its UA).
   const userAgent = (await headers()).get("user-agent") ?? "";
-  if (/Mobi|Android|iPhone|iPad|iPod/i.test(userAgent)) {
+
+  const isMobileUA = /Mobi|Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini|Opera Mobi|CriOS|FxiOS/i.test(userAgent);
+
+  // iPad desktop mode: reports as Macintosh running Safari (not Chrome)
+  const isDesktopIPad =
+    /Macintosh/i.test(userAgent) &&
+    /Safari/i.test(userAgent) &&
+    !/Chrome|Chromium|CriOS/i.test(userAgent) &&
+    /Version\//i.test(userAgent);
+
+  if (isMobileUA || isDesktopIPad) {
     redirect(`https://delianpetrov.notion.site/${pageId}`);
   }
 
