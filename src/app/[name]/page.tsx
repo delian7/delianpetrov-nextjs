@@ -187,7 +187,6 @@ function LoadingSpinner() {
           animation: "spin 0.8s linear infinite",
         }}
       />
-      <p style={{ margin: 0, fontSize: "0.9rem" }}>Redirecting…</p>
     </div>
   );
 }
