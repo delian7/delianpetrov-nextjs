@@ -132,9 +132,7 @@ export default async function DynamicPage({
           <ClientRedirect url={unauthorizedUrl} />
         </head>
         <body>
-          <p style={{ fontFamily: "system-ui", textAlign: "center", padding: "2rem" }}>
-            Redirecting...
-          </p>
+          <LoadingSpinner />
         </body>
       </html>
     );
@@ -147,9 +145,7 @@ export default async function DynamicPage({
           <ClientRedirect url="/" />
         </head>
         <body>
-          <p style={{ fontFamily: "system-ui", textAlign: "center", padding: "2rem" }}>
-            Redirecting...
-          </p>
+          <LoadingSpinner />
         </body>
       </html>
     );
@@ -161,11 +157,36 @@ export default async function DynamicPage({
         <ClientRedirect url={notionData.url} />
       </head>
       <body>
-        <p style={{ fontFamily: "system-ui", textAlign: "center", padding: "2rem" }}>
-          Redirecting to{" "}
-          <a href={notionData.url}>the linked resource</a>...
-        </p>
+        <LoadingSpinner />
       </body>
     </html>
+  );
+}
+
+function LoadingSpinner() {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        fontFamily: "system-ui",
+        gap: "1rem",
+        color: "var(--text-secondary, #8a8a9a)",
+      }}
+    >
+      <div
+        style={{
+          width: "40px",
+          height: "40px",
+          border: "3px solid var(--border, rgba(255,255,255,0.06))",
+          borderTopColor: "var(--accent, #6944ff)",
+          borderRadius: "50%",
+          animation: "spin 0.8s linear infinite",
+        }}
+      />
+    </div>
   );
 }
