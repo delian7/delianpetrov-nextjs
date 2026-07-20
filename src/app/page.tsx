@@ -46,6 +46,12 @@ import visageHeroFull from "../images/visage/hero.png";
 import visageColors from "../images/visage/visage-colors.png";
 import visageTemplates from "../images/visage/visage-templates.png";
 import spxDashboard from "../images/spx/spx_dashboard.png";
+// Resilient Hearts screenshots
+import resilientHeartsScreenshot1 from "../images/resilienthearts/screenshot-1.jpg";
+import resilientHeartsScreenshot2 from "../images/resilienthearts/screenshot-2.jpg";
+import resilientHeartsScreenshot3 from "../images/resilienthearts/screenshot-3.jpg";
+import resilientHeartsScreenshot4 from "../images/resilienthearts/screenshot-4.jpg";
+import resilientHeartsScreenshot5 from "../images/resilienthearts/screenshot-5.jpg";
 
 // Timeline logos
 import metaLogo from "../images/meta_logo.png";
@@ -133,7 +139,13 @@ const projects: Project[] = [
     role: "Creator & Lead Developer",
     overview:
       "Built for Resilient Hearts Animal Sanctuary, a nonprofit running a volunteer-staffed daycare (8am–6pm), adoptions, and skills-training programs. The dashboard integrates with InitLive (formerly Bloomerang Volunteer) to provide Supers (volunteer leads) real-time visibility into who's signed up, their qualification tags, and certification status. Volunteers progress through skills training — completing modules unlocks additional job opportunities like front-door operations and adoption events. Features include a filterable volunteer directory, skills gap analysis, daily staffing summaries, and role-based access (Supers see operational data, Admins see full analytics). Replaces manual spreadsheet coordination with a live, mobile-responsive dashboard that loads in under 3 seconds.",
-    screenshots: [resilientHeartsHero.src],
+    screenshots: [
+      resilientHeartsScreenshot1,
+      resilientHeartsScreenshot2,
+      resilientHeartsScreenshot3,
+      resilientHeartsScreenshot4,
+      resilientHeartsScreenshot5,
+    ],
     highlights: [
       "Live InitLive API integration for real-time volunteer signups and qualification data",
       "Skills progression tracking — volunteers graduate through training to unlock advanced roles",
