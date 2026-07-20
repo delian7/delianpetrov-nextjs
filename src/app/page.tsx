@@ -140,11 +140,11 @@ const projects: Project[] = [
     overview:
       "Built for Resilient Hearts Animal Sanctuary, a nonprofit running a volunteer-staffed daycare (8am–6pm), adoptions, and skills-training programs. The dashboard integrates with InitLive (formerly Bloomerang Volunteer) to provide Supers (volunteer leads) real-time visibility into who's signed up, their qualification tags, and certification status. Volunteers progress through skills training — completing modules unlocks additional job opportunities like front-door operations and adoption events. Features include a filterable volunteer directory, skills gap analysis, daily staffing summaries, and role-based access (Supers see operational data, Admins see full analytics). Replaces manual spreadsheet coordination with a live, mobile-responsive dashboard that loads in under 3 seconds.",
     screenshots: [
-      resilientHeartsScreenshot1,
-      resilientHeartsScreenshot2,
-      resilientHeartsScreenshot3,
-      resilientHeartsScreenshot4,
-      resilientHeartsScreenshot5,
+      resilientHeartsScreenshot1.src,
+      resilientHeartsScreenshot2.src,
+      resilientHeartsScreenshot3.src,
+      resilientHeartsScreenshot4.src,
+      resilientHeartsScreenshot5.src,
     ],
     highlights: [
       "Live InitLive API integration for real-time volunteer signups and qualification data",
