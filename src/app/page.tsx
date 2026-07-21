@@ -21,7 +21,7 @@ import metroGroupHero from "../images/metrogroup/card.png";
 import seastatusHero from "../images/seastatus/new-home.png";
 import visageHero from "../images/visage/card.png";
 import wanderfulHero from "../images/wanderfultanzania/safari3.png";
-import resilientHeartsHero from "../images/resilienthearts/screenshot-1.jpg";
+import resilientHeartsHero from "../images/resilienthearts/hero-new.jpg";
 
 // Project logos
 import fridgeGuideLogo from "../images/fridgeguide/fridgeguide_logo.png";
