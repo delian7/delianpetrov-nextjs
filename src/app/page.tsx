@@ -21,7 +21,7 @@ import metroGroupHero from "../images/metrogroup/card.png";
 import seastatusHero from "../images/seastatus/new-home.png";
 import visageHero from "../images/visage/card.png";
 import wanderfulHero from "../images/wanderfultanzania/safari3.png";
-import resilientHeartsHero from "../images/resilienthearts/hero-logo.jpg";
+import resilientHeartsHero from "../images/resilienthearts/screenshot-1.jpg";
 
 // Project logos
 import fridgeGuideLogo from "../images/fridgeguide/fridgeguide_logo.png";
@@ -29,7 +29,7 @@ import metroGroupLogo from "../images/metrogroup/logo.png";
 import seastatusLogo from "../images/seastatus_logo.png";
 import visageLogo from "../images/visage_logo.png";
 import wanderfulLogo from "../images/wanderfultanzania/wanderful-tanzania-logo-white.png";
-import resilientHeartsLogo from "../images/resilienthearts/hero-logo.jpg";
+import resilientHeartsLogo from "../images/resilient-hearts-logo.png";
 
 // Project screenshots
 import wanderfulWild from "../images/wanderfultanzania/wild-at-heart.png";
