@@ -281,14 +281,14 @@ html.light .modal-overlay { background: rgba(0,0,0,0.4); }
 .clippy-root { position: fixed; right: 24px; bottom: 24px; z-index: 400; display: flex; flex-direction: column; align-items: flex-end; gap: 12px; }
 
 .clippy-avatar-btn {
-  width: 60px; height: 60px; border-radius: 50%; border: 1px solid var(--border-glass);
-  background: var(--bg-elevated); color: var(--accent); cursor: pointer;
+  width: 60px; height: 60px; border-radius: 50%; border: 1px solid rgba(0,0,0,0.08);
+  background: #f6ecd2; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 8px 30px rgba(0,0,0,0.35), 0 0 0 0 var(--accent-glow);
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
 }
 .clippy-avatar-btn:hover { transform: translateY(-2px) scale(1.05); box-shadow: 0 10px 34px rgba(0,0,0,0.4), 0 0 24px var(--accent-glow); }
-.clippy-avatar-btn.active { color: var(--text-primary); }
+.clippy-avatar-btn.active { transform: scale(0.94); background: #efe0b8; }
 .clippy-glyph { display: block; }
 .clippy-pupil { transform-origin: center; }
 .clippy-glyph-animated { animation: clippy-bob 2.6s ease-in-out infinite; }

@@ -147,6 +147,9 @@ export default function ClippyAgent() {
 }
 
 function ClippyGlyph({ size = 32, animated = false }: { size?: number; animated?: boolean }) {
+  const bodyPath =
+    "M13 44 L13 18 C13 13.5 16.5 10 21 10 C25.5 10 29 13.5 29 18 L29 46 C29 53 23.5 58 16.5 58 C9.5 58 4 53 4 46 L4 20";
+
   return (
     <svg
       viewBox="0 0 40 64"
@@ -155,23 +158,32 @@ function ClippyGlyph({ size = 32, animated = false }: { size?: number; animated?
       className={`clippy-glyph ${animated ? "clippy-glyph-animated" : ""}`}
       aria-hidden="true"
     >
+      {/* dark cartoon outline, drawn behind the gold wire */}
       <path
-        d="M13 44 L13 18 C13 13.5 16.5 10 21 10 C25.5 10 29 13.5 29 18 L29 46 C29 53 23.5 58 16.5 58 C9.5 58 4 53 4 46 L4 20"
+        d={bodyPath}
         fill="none"
-        stroke="currentColor"
-        strokeWidth="4"
+        stroke="#6b4a10"
+        strokeWidth="7"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      {/* classic gold paperclip wire */}
+      <path
+        d={bodyPath}
+        fill="none"
+        stroke="#FFCE3B"
+        strokeWidth="4.5"
         strokeLinecap="round"
         strokeLinejoin="round"
         className="clippy-body"
       />
       <g className="clippy-face">
-        <circle cx="15" cy="20" r="3.4" fill="var(--bg-elevated, #fff)" />
-        <circle cx="25" cy="20" r="3.4" fill="var(--bg-elevated, #fff)" />
-        <circle className="clippy-pupil" cx="16" cy="19.5" r="1.4" fill="currentColor" />
-        <circle className="clippy-pupil" cx="26" cy="19.5" r="1.4" fill="currentColor" />
-        <path d="M13.5 14.5 Q15 12.5 17 13.5" stroke="currentColor" strokeWidth="1.4" fill="none" strokeLinecap="round" />
-        <path d="M23 13.5 Q25 12.5 26.5 14.5" stroke="currentColor" strokeWidth="1.4" fill="none" strokeLinecap="round" />
-        <path d="M16.5 27 Q20.5 30 24.5 27" stroke="currentColor" strokeWidth="1.6" fill="none" strokeLinecap="round" />
+        <ellipse cx="15" cy="19.5" rx="3.6" ry="4.6" fill="#ffffff" stroke="#6b4a10" strokeWidth="1.2" />
+        <ellipse cx="25" cy="19.5" rx="3.6" ry="4.6" fill="#ffffff" stroke="#6b4a10" strokeWidth="1.2" />
+        <circle className="clippy-pupil" cx="16" cy="20" r="1.7" fill="#1a1208" />
+        <circle className="clippy-pupil" cx="26" cy="20" r="1.7" fill="#1a1208" />
+        <path d="M12 13 Q15 10 18.5 12" stroke="#6b4a10" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+        <path d="M21.5 12 Q25 10 28 13" stroke="#6b4a10" strokeWidth="1.8" fill="none" strokeLinecap="round" />
       </g>
     </svg>
   );
