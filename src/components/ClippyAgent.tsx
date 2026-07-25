@@ -10,7 +10,7 @@ interface ChatMessage {
 }
 
 const GREETING =
-  "Hi, I'm Clippy! I can tell you about Delian's projects, experience, or how to get in touch. Ask me anything, or tap a suggestion below.";
+  "Hi, I'm Cliply! I can tell you about Delian's projects, experience, or how to get in touch. Ask me anything, or tap a suggestion below.";
 
 const INTRO_TIP_KEY = "clippy-intro-shown";
 
@@ -84,17 +84,17 @@ export default function ClippyAgent() {
       )}
 
       {open && (
-        <div className="clippy-panel" role="dialog" aria-label="Clippy assistant" aria-modal="false">
+        <div className="clippy-panel" role="dialog" aria-label="Cliply assistant" aria-modal="false">
           <div className="clippy-panel-header">
             <span className="clippy-panel-title">
               <ClippyGlyph size={18} />
-              Clippy
+              Cliply
             </span>
             <button
               type="button"
               className="clippy-panel-close"
               onClick={() => setOpen(false)}
-              aria-label="Close Clippy"
+              aria-label="Close Cliply"
             >
               &times;
             </button>
@@ -123,7 +123,7 @@ export default function ClippyAgent() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about projects, experience, contact..."
               maxLength={200}
-              aria-label="Message Clippy"
+              aria-label="Message Cliply"
               autoComplete="off"
             />
             <button type="submit" aria-label="Send" disabled={!input.trim()}>
@@ -137,7 +137,7 @@ export default function ClippyAgent() {
         type="button"
         className={`clippy-avatar-btn ${open ? "active" : ""}`}
         onClick={toggleOpen}
-        aria-label={open ? "Close Clippy assistant" : "Open Clippy assistant"}
+        aria-label={open ? "Close Cliply assistant" : "Open Cliply assistant"}
         aria-expanded={open}
       >
         <ClippyGlyph size={34} animated />

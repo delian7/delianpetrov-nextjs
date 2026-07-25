@@ -1,5 +1,5 @@
 /**
- * Clippy's knowledge base. Fully scripted, keyword-matched, client-side only —
+ * Cliply's knowledge base. Fully scripted, keyword-matched, client-side only —
  * no LLM calls, no network requests, nothing about the visitor is stored or sent
  * anywhere. Every answer below is a canned string; the "matching" is just
  * substring lookups against the phrase list, in priority order.
@@ -16,7 +16,7 @@ const INTENTS: ClippyIntent[] = [
     id: "greeting",
     phrases: ["hello", "hi ", "hi!", "hi?", "hey", "yo ", "howdy", "greetings", "sup"],
     responses: [
-      "Hi there! I'm Clippy. Ask me about Delian's projects, his experience, or how to get in touch — or tap a suggestion below.",
+      "Hi there! I'm Cliply. Ask me about Delian's projects, his experience, or how to get in touch — or tap a suggestion below.",
     ],
   },
   {
@@ -30,10 +30,10 @@ const INTENTS: ClippyIntent[] = [
     responses: ["See you around! Click my avatar anytime you have more questions."],
   },
   {
-    id: "clippy-identity",
-    phrases: ["who are you", "what are you", "your name", "clippy"],
+    id: "cliply-identity",
+    phrases: ["who are you", "what are you", "your name", "cliply", "clippy"],
     responses: [
-      "I'm Clippy, a small scripted guide living in the corner of this site — no AI model, no data collection, just canned answers about Delian and his work. Try asking about his projects, experience, or how to reach him.",
+      "I'm Cliply, a small scripted guide living in the corner of this site — no AI model, no data collection, just canned answers about Delian and his work. Try asking about his projects, experience, or how to reach him.",
     ],
   },
   {
