@@ -48,7 +48,16 @@ const WEATHER_CODES: Record<number, { emoji: string; text: string }> = {
   99: { emoji: "⛈️", text: "severe thunderstorms" },
 };
 
-function describeCode(code: number) {
+// Codes 0-2 ("clear" / "mostly clear" / "partly cloudy") look wrong with a sun
+// emoji after dark — swap in night-appropriate icons using current_weather.is_day.
+const NIGHT_OVERRIDES: Record<number, { emoji: string; text: string }> = {
+  0: { emoji: "🌙", text: "clear" },
+  1: { emoji: "🌙", text: "mostly clear" },
+  2: { emoji: "☁️", text: "partly cloudy" },
+};
+
+function describeCode(code: number, isDay: boolean) {
+  if (!isDay && code in NIGHT_OVERRIDES) return NIGHT_OVERRIDES[code];
   return WEATHER_CODES[code] ?? { emoji: "🌡️", text: "unusual weather" };
 }
 
@@ -59,7 +68,7 @@ export async function fetchWeatherForCoords(lat: number, lon: number): Promise<W
   const data = await res.json();
   const cw = data.current_weather;
   if (!cw || typeof cw.temperature !== "number") throw new Error("No current weather in response");
-  const { emoji, text } = describeCode(cw.weathercode);
+  const { emoji, text } = describeCode(cw.weathercode, cw.is_day === 1);
   return { tempF: Math.round(cw.temperature), emoji, text };
 }
 
