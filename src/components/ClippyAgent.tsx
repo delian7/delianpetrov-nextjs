@@ -232,6 +232,7 @@ export default function ClippyAgent() {
             <span className="clippy-panel-title">
               <ClippyGlyph size={18} />
               Cliply
+              <span className="clippy-made-by">Made by Delian</span>
             </span>
             <button
               type="button"

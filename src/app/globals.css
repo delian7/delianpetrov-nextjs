@@ -325,7 +325,12 @@ html.light .modal-overlay { background: rgba(0,0,0,0.4); }
   display: flex; align-items: center; justify-content: space-between; padding: 12px 14px;
   border-bottom: 1px solid var(--border); background: var(--bg-glass);
 }
-.clippy-panel-title { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--accent); }
+.clippy-panel-title { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--accent); min-width: 0; }
+.clippy-made-by {
+  font-family: var(--font-mono); font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--text-muted); background: var(--bg-glass); border: 1px solid var(--border-glass);
+  border-radius: 999px; padding: 3px 8px; white-space: nowrap;
+}
 .clippy-panel-close { border: none; background: transparent; color: var(--text-muted); font-size: 18px; line-height: 1; cursor: pointer; padding: 4px; }
 .clippy-panel-close:hover { color: var(--text-primary); }
 
