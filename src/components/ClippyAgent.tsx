@@ -146,9 +146,18 @@ export default function ClippyAgent() {
   );
 }
 
+let glyphUid = 0;
+
 function ClippyGlyph({ size = 32, animated = false }: { size?: number; animated?: boolean }) {
-  const bodyPath =
-    "M13 44 L13 18 C13 13.5 16.5 10 21 10 C25.5 10 29 13.5 29 18 L29 46 C29 53 23.5 58 16.5 58 C9.5 58 4 53 4 46 L4 20";
+  const [gradId] = useState(() => `clippyWire${glyphUid++}`);
+
+  // Outer loop: sweeps up from the bottom, over the top, and curls into a
+  // small hook on the upper right — like real bent wire, not a closed ring.
+  const outerStrand =
+    "M9 58 C9 40 9 24 9 22 C9 12 14 6 20 6 C26 6 30 11 30 18 C30 24 27 29 22 30";
+  // Inner strand: the pair of legs + rounded U-turn beneath the eyes.
+  const innerStrand =
+    "M15 50 L15 20 C15 15 18 12 21.5 13 C24.5 13.8 26 16.5 25.5 20 L25.5 44 C25.5 51.5 19.5 56.5 13 55.5 C7 54.6 4 49.5 4 44";
 
   return (
     <svg
@@ -158,32 +167,26 @@ function ClippyGlyph({ size = 32, animated = false }: { size?: number; animated?
       className={`clippy-glyph ${animated ? "clippy-glyph-animated" : ""}`}
       aria-hidden="true"
     >
-      {/* dark cartoon outline, drawn behind the gold wire */}
-      <path
-        d={bodyPath}
-        fill="none"
-        stroke="#6b4a10"
-        strokeWidth="7"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      {/* classic gold paperclip wire */}
-      <path
-        d={bodyPath}
-        fill="none"
-        stroke="#FFCE3B"
-        strokeWidth="4.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="clippy-body"
-      />
+      <defs>
+        <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#efe9ff" />
+          <stop offset="45%" stopColor="#a99ee0" />
+          <stop offset="100%" stopColor="#6d5fa8" />
+        </linearGradient>
+      </defs>
+      <g className="clippy-body">
+        <path d={outerStrand} fill="none" stroke={`url(#${gradId})`} strokeWidth="3.6" strokeLinecap="round" />
+        <path d={innerStrand} fill="none" stroke={`url(#${gradId})`} strokeWidth="3.6" strokeLinecap="round" />
+        {/* thin glossy highlight streak for a plastic/metal sheen */}
+        <path d="M11 50 L11 24" stroke="#f5f2ff" strokeWidth="0.9" strokeLinecap="round" opacity="0.75" />
+      </g>
       <g className="clippy-face">
-        <ellipse cx="15" cy="19.5" rx="3.6" ry="4.6" fill="#ffffff" stroke="#6b4a10" strokeWidth="1.2" />
-        <ellipse cx="25" cy="19.5" rx="3.6" ry="4.6" fill="#ffffff" stroke="#6b4a10" strokeWidth="1.2" />
-        <circle className="clippy-pupil" cx="16" cy="20" r="1.7" fill="#1a1208" />
-        <circle className="clippy-pupil" cx="26" cy="20" r="1.7" fill="#1a1208" />
-        <path d="M12 13 Q15 10 18.5 12" stroke="#6b4a10" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-        <path d="M21.5 12 Q25 10 28 13" stroke="#6b4a10" strokeWidth="1.8" fill="none" strokeLinecap="round" />
+        <ellipse cx="14" cy="16.5" rx="3.4" ry="4.3" fill="#ffffff" />
+        <ellipse cx="23.5" cy="19" rx="4" ry="5" fill="#ffffff" />
+        <circle className="clippy-pupil" cx="15.2" cy="17.5" r="1.6" fill="#1a1a1a" />
+        <circle className="clippy-pupil" cx="22.6" cy="20.2" r="1.9" fill="#1a1a1a" />
+        <path d="M8 12.5 C10.5 9 14.5 8.3 18 10.2 C14.6 9.6 11 10.3 8.6 13.4 Z" fill="#231f38" />
+        <path d="M20.5 10.8 C23 8 27.5 8.4 30 11.5 C27 9.6 23.6 9.7 21.2 12.3 Z" fill="#231f38" />
       </g>
     </svg>
   );
