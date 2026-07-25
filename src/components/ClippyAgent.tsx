@@ -44,13 +44,43 @@ export default function ClippyAgent() {
   const [zipError, setZipError] = useState<string | null>(null);
 
   // One-time, dismissible intro bubble — never reappears mid-session, never blocks anything.
+  // Shows 2s after the visitor scrolls past the hero and stops scrolling, or after
+  // 10s if they're still sitting on the hero (haven't scrolled past it yet).
   useEffect(() => {
     if (sessionStorage.getItem(INTRO_TIP_KEY)) return;
-    const showTimer = setTimeout(() => {
+
+    let heroPassed = false;
+    let shown = false;
+    let scrollIdleTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const maybeShow = () => {
+      if (shown) return;
+      shown = true;
       setShowTip(true);
       sessionStorage.setItem(INTRO_TIP_KEY, "1");
-    }, 2500);
-    return () => clearTimeout(showTimer);
+    };
+
+    const handleScroll = () => {
+      const heroEl = document.querySelector(".hero");
+      if (heroEl) heroPassed = heroEl.getBoundingClientRect().bottom <= 0;
+
+      if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
+      scrollIdleTimer = setTimeout(() => {
+        if (heroPassed) maybeShow();
+      }, 2000);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    const stillOnHeroTimer = setTimeout(() => {
+      if (!heroPassed) maybeShow();
+    }, 10000);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
+      clearTimeout(stillOnHeroTimer);
+    };
   }, []);
 
   useEffect(() => {
