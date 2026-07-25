@@ -35,6 +35,7 @@ export default function ClippyAgent() {
   const [input, setInput] = useState("");
   const nextId = useRef(1);
   const messagesRef = useRef<HTMLDivElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
 
   const [location, setLocation] = useState<WeatherLocation>(SEATTLE_LOCATION);
   const [weather, setWeather] = useState<WeatherNow | null>(null);
@@ -96,6 +97,18 @@ export default function ClippyAgent() {
     window.addEventListener("scroll", dismissOnScroll, { passive: true });
     return () => window.removeEventListener("scroll", dismissOnScroll);
   }, [showTip]);
+
+  // Close the chat panel on a click/tap anywhere outside it (or the avatar button).
+  useEffect(() => {
+    if (!open) return;
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [open]);
 
   useEffect(() => {
     const el = messagesRef.current;
@@ -208,7 +221,7 @@ export default function ClippyAgent() {
   };
 
   return (
-    <div className="clippy-root">
+    <div className="clippy-root" ref={rootRef}>
       {showTip && !open && (
         <div className="clippy-tip" role="status">
           <button
