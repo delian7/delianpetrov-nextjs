@@ -248,7 +248,7 @@ export default function ClippyAgent() {
           >
             &times;
           </button>
-          <p>{tipJoke}</p>
+          <p><strong>Dad jokes:</strong> {tipJoke}</p>
           <p className="clippy-tip-weather">
             {weatherStatus === "ready" && weather && location
               ? weatherSentence(weather, location)
