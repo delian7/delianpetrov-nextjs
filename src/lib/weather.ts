@@ -1,6 +1,7 @@
 /**
- * Live weather lookup for Cliply. Uses two free, keyless, CORS-enabled
+ * Live weather lookup for Cliply. Uses three free, keyless, CORS-enabled
  * public APIs — no account, no API key to manage, no backend proxy needed:
+ *  - ipwho.is to guess the visitor's location from their IP address
  *  - Open-Meteo (https://open-meteo.com) for the current conditions
  *  - Zippopotam.us (https://zippopotam.us) to resolve a US ZIP code to coordinates
  */
@@ -16,12 +17,6 @@ export interface WeatherNow {
   emoji: string;
   text: string;
 }
-
-export const SEATTLE_LOCATION: WeatherLocation = {
-  lat: 47.6062,
-  lon: -122.3321,
-  label: "Seattle, WA",
-};
 
 // WMO weather codes, as returned by Open-Meteo's current_weather.weathercode
 const WEATHER_CODES: Record<number, { emoji: string; text: string }> = {
@@ -70,6 +65,23 @@ export async function fetchWeatherForCoords(lat: number, lon: number): Promise<W
   if (!cw || typeof cw.temperature !== "number") throw new Error("No current weather in response");
   const { emoji, text } = describeCode(cw.weathercode, cw.is_day === 1);
   return { tempF: Math.round(cw.temperature), emoji, text };
+}
+
+export async function fetchLocationFromIP(): Promise<WeatherLocation> {
+  const res = await fetch("https://ipwho.is/");
+  if (!res.ok) throw new Error("IP lookup failed");
+  const data = await res.json();
+  if (!data.success || typeof data.latitude !== "number" || typeof data.longitude !== "number") {
+    throw new Error("IP lookup failed");
+  }
+  const place = data.city || data.region || data.country;
+  if (!place) throw new Error("IP lookup returned no location");
+  const region = data.region_code || data.country_code;
+  return {
+    lat: data.latitude,
+    lon: data.longitude,
+    label: region && region !== place ? `${place}, ${region}` : place,
+  };
 }
 
 export async function fetchLocationForZip(zip: string): Promise<WeatherLocation> {

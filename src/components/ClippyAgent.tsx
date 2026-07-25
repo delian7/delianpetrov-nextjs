@@ -3,7 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { getClippyResponse, getRandomDadJoke, CLIPPY_SUGGESTIONS } from "@/data/clippyKnowledge";
 import {
-  SEATTLE_LOCATION,
+  fetchLocationFromIP,
   fetchLocationForZip,
   fetchWeatherForCoords,
   type WeatherLocation,
@@ -17,7 +17,7 @@ interface ChatMessage {
 }
 
 const GREETING =
-  "Hi, I'm Cliply! I can tell you about Delian's projects, experience, or how to get in touch. Tap a suggestion below to get started.";
+  "Hi, I'm Cliply! I can tell you about Delian's projects, experience, or how to get in touch. Ask me anything, or tap a suggestion below.";
 
 const INTRO_TIP_KEY = "clippy-intro-shown";
 const ZIP_STORAGE_KEY = "cliply-zip";
@@ -33,11 +33,12 @@ export default function ClippyAgent() {
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 0, role: "clippy", text: GREETING },
   ]);
+  const [input, setInput] = useState("");
   const nextId = useRef(1);
   const messagesRef = useRef<HTMLDivElement>(null);
   const rootRef = useRef<HTMLDivElement>(null);
 
-  const [location, setLocation] = useState<WeatherLocation>(SEATTLE_LOCATION);
+  const [location, setLocation] = useState<WeatherLocation | null>(null);
   const [weather, setWeather] = useState<WeatherNow | null>(null);
   const [weatherStatus, setWeatherStatus] = useState<"loading" | "ready" | "error">("loading");
   const [zipFormOpen, setZipFormOpen] = useState(false);
@@ -116,21 +117,33 @@ export default function ClippyAgent() {
     if (el) el.scrollTop = el.scrollHeight;
   }, [messages, open]);
 
-  // Load the last ZIP the visitor set (if any), otherwise default to Seattle.
+  // Prefer the ZIP the visitor last set explicitly. Otherwise, guess their
+  // location from their IP address. If both fail, drop the Seattle default
+  // entirely and just prompt them to enter a ZIP themselves.
   useEffect(() => {
     let cancelled = false;
     (async () => {
       setWeatherStatus("loading");
       try {
         const storedZip = localStorage.getItem(ZIP_STORAGE_KEY);
-        const loc = storedZip && /^\d{5}$/.test(storedZip) ? await fetchLocationForZip(storedZip) : SEATTLE_LOCATION;
+        let loc: WeatherLocation | null = null;
+        if (storedZip && /^\d{5}$/.test(storedZip)) {
+          try {
+            loc = await fetchLocationForZip(storedZip);
+          } catch {
+            // stale/invalid stored ZIP — fall through to IP-based lookup
+          }
+        }
+        if (!loc) loc = await fetchLocationFromIP();
         const w = await fetchWeatherForCoords(loc.lat, loc.lon);
         if (cancelled) return;
         setLocation(loc);
         setWeather(w);
         setWeatherStatus("ready");
       } catch {
-        if (!cancelled) setWeatherStatus("error");
+        if (cancelled) return;
+        setWeatherStatus("error");
+        setZipFormOpen(true);
       }
     })();
     return () => {
@@ -156,18 +169,20 @@ export default function ClippyAgent() {
     }
   };
 
-  const useSeattle = async () => {
+  const useMyLocation = async () => {
     localStorage.removeItem(ZIP_STORAGE_KEY);
-    setZipFormOpen(false);
     setZipError(null);
     setWeatherStatus("loading");
     try {
-      const w = await fetchWeatherForCoords(SEATTLE_LOCATION.lat, SEATTLE_LOCATION.lon);
-      setLocation(SEATTLE_LOCATION);
+      const loc = await fetchLocationFromIP();
+      const w = await fetchWeatherForCoords(loc.lat, loc.lon);
+      setLocation(loc);
       setWeather(w);
       setWeatherStatus("ready");
+      setZipFormOpen(false);
     } catch {
       setWeatherStatus("error");
+      setZipError("Couldn't detect your location. Try a ZIP code instead.");
     }
   };
 
@@ -183,23 +198,37 @@ export default function ClippyAgent() {
     }
   };
 
-  // Only ever called with a fixed suggestion-chip string — free text entry was removed.
-  const send = (raw: string) => {
+  const send = async (raw: string) => {
     const text = raw.trim();
     if (!text) return;
     setMessages((prev) => [...prev, { id: nextId.current++, role: "user", text }]);
+    setInput("");
+
+    // A bare 5-digit message is treated as "check the weather for this ZIP".
+    if (/^\d{5}$/.test(text)) {
+      const thinkingId = nextId.current++;
+      setMessages((prev) => [...prev, { id: thinkingId, role: "clippy", text: "Checking that ZIP code…" }]);
+      const result = await changeZip(text);
+      setMessages((prev) => prev.map((m) => (m.id === thinkingId ? { ...m, text: result.message } : m)));
+      return;
+    }
 
     if (/weather|forecast|temperature|degrees out|how (hot|cold)/i.test(text)) {
       const reply =
-        weatherStatus === "ready" && weather
-          ? `${weatherSentence(weather, location)} Use the Change ZIP button above to check somewhere else.`
-          : "I'm still checking the weather — tap that suggestion again in a moment, or use the Change ZIP button above.";
+        weatherStatus === "ready" && weather && location
+          ? `${weatherSentence(weather, location)} Type a 5-digit ZIP code any time, or use the Change ZIP button above, to check somewhere else.`
+          : "I'm still checking the weather — ask again in a moment, type a 5-digit ZIP code, or use the Change ZIP button above.";
       setMessages((prev) => [...prev, { id: nextId.current++, role: "clippy", text: reply }]);
       return;
     }
 
     const reply = getClippyResponse(text);
     setMessages((prev) => [...prev, { id: nextId.current++, role: "clippy", text: reply }]);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    send(input);
   };
 
   const toggleOpen = () => {
@@ -221,7 +250,7 @@ export default function ClippyAgent() {
           </button>
           <p>{tipJoke}</p>
           <p className="clippy-tip-weather">
-            {weatherStatus === "ready" && weather
+            {weatherStatus === "ready" && weather && location
               ? weatherSentence(weather, location)
               : "— Cliply, made by Delian. Click the icon to chat."}
           </p>
@@ -250,7 +279,7 @@ export default function ClippyAgent() {
             <span className="clippy-weather-line">
               {weatherStatus === "loading" && "Checking the weather…"}
               {weatherStatus === "error" && "Weather unavailable right now."}
-              {weatherStatus === "ready" && weather && `${weather.emoji} ${location.label} — ${weather.tempF}°F, ${weather.text}`}
+              {weatherStatus === "ready" && weather && location && `${weather.emoji} ${location.label} — ${weather.tempF}°F, ${weather.text}`}
             </span>
             <button
               type="button"
@@ -278,8 +307,8 @@ export default function ClippyAgent() {
               <button type="submit" disabled={zipDraft.length !== 5}>
                 Go
               </button>
-              <button type="button" className="clippy-zip-reset" onClick={useSeattle}>
-                Use Seattle
+              <button type="button" className="clippy-zip-reset" onClick={useMyLocation}>
+                Use my location
               </button>
             </form>
           )}
@@ -293,13 +322,28 @@ export default function ClippyAgent() {
             ))}
           </div>
 
-          <div className="clippy-suggestions clippy-suggestions-footer">
+          <div className="clippy-suggestions">
             {CLIPPY_SUGGESTIONS.map((s) => (
               <button key={s} type="button" className="clippy-chip" onClick={() => send(s)}>
                 {s}
               </button>
             ))}
           </div>
+
+          <form className="clippy-input-row" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask about projects, experience, contact..."
+              maxLength={200}
+              aria-label="Message Cliply"
+              autoComplete="off"
+            />
+            <button type="submit" aria-label="Send" disabled={!input.trim()}>
+              Send
+            </button>
+          </form>
         </div>
       )}
 

@@ -196,7 +196,7 @@ const INTENTS: ClippyIntent[] = [
     id: "help",
     phrases: ["help", "what can you do", "commands", "options"],
     responses: [
-      "I can tell you about Delian's projects, his career/experience, his skills, his education, how to contact him, the weather, or tell you a dad joke. Tap a suggestion chip below to get started.",
+      "I can tell you about Delian's projects, his career/experience, his skills, his education, how to contact him, the weather, or tell you a dad joke. Try tapping a suggestion chip below, or just type a question.",
     ],
   },
 ];
