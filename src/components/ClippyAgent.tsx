@@ -86,11 +86,11 @@ export default function ClippyAgent() {
     };
   }, []);
 
-  // Auto-hides 10s after showing, same as the stay-on-hero fallback delay —
-  // otherwise stays up until the visitor closes it or opens the chat.
+  // Auto-hides 20s after showing — otherwise stays up until the visitor
+  // closes it or opens the chat.
   useEffect(() => {
     if (!showTip) return;
-    const hideTimer = setTimeout(() => setShowTip(false), 10000);
+    const hideTimer = setTimeout(() => setShowTip(false), 20000);
     return () => clearTimeout(hideTimer);
   }, [showTip]);
 
