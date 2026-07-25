@@ -89,6 +89,14 @@ export default function ClippyAgent() {
     return () => clearTimeout(hideTimer);
   }, [showTip]);
 
+  // Dismiss the tip the moment the visitor scrolls again once it's up.
+  useEffect(() => {
+    if (!showTip) return;
+    const dismissOnScroll = () => setShowTip(false);
+    window.addEventListener("scroll", dismissOnScroll, { passive: true });
+    return () => window.removeEventListener("scroll", dismissOnScroll);
+  }, [showTip]);
+
   useEffect(() => {
     const el = messagesRef.current;
     if (el) el.scrollTop = el.scrollHeight;
