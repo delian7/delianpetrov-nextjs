@@ -11,6 +11,45 @@ interface ClippyIntent {
   responses: string[];
 }
 
+// 30 original dad jokes — used both as the "tell me a joke" chat intent and
+// for the one-time intro tip (a random pick shows there each session).
+export const DAD_JOKES = [
+  "I told my computer I needed a break, and it said no problem — it froze immediately.",
+  "Why do programmers prefer dark mode? Because light attracts bugs.",
+  "I used to be a paperclip. Now I'm still a paperclip, but a proactive one.",
+  "Why did the developer go broke? He used up all his cache.",
+  "I'm reading a book about anti-gravity. It's impossible to put down.",
+  "Why don't scientists trust atoms? Because they make up everything.",
+  "I asked the Wi-Fi for its password. It said, 'You're not my type.'",
+  "What do you call a fish with no eyes? A fsh.",
+  "I used to hate facial hair, but then it grew on me.",
+  "Why did the scarecrow win an award? He was outstanding in his field.",
+  "I only know 25 letters of the alphabet. I don't know y.",
+  "What do you call a bear with no teeth? A gummy bear.",
+  "I'm on a seafood diet. I see food, and I eat it.",
+  "Why did the coffee file a police report? It got mugged.",
+  "What did the ocean say to the beach? Nothing, it just waved.",
+  "I tried to catch some fog yesterday. I mist.",
+  "Why don't eggs tell jokes? They'd crack each other up.",
+  "What do you call a factory that makes okay products? A satisfactory.",
+  "I'm terrified of elevators, so I'm going to start taking steps to avoid them.",
+  "Why did the invisible man turn down the job offer? He couldn't see himself doing it.",
+  "What's a computer's favorite snack? Microchips.",
+  "I told my wife she was drawing her eyebrows too high. She looked surprised.",
+  "Why can't your nose be 12 inches long? Because then it would be a foot.",
+  "What do you call a boomerang that doesn't come back? A stick.",
+  "I would tell you a construction joke, but I'm still working on it.",
+  "Why did the golfer bring two pairs of pants? In case he got a hole in one.",
+  "What do you call cheese that isn't yours? Nacho cheese.",
+  "I've started telling everyone about the benefits of eating dried grapes. It's all about raisin awareness.",
+  "Why did the software engineer bring a paperclip to the interview? Every good hire needs a solid reference.",
+  "I'm not lazy, I'm just on energy-saving mode — same as this whole website's dark theme.",
+];
+
+export function getRandomDadJoke(): string {
+  return DAD_JOKES[Math.floor(Math.random() * DAD_JOKES.length)];
+}
+
 const INTENTS: ClippyIntent[] = [
   {
     id: "greeting",
@@ -149,23 +188,21 @@ const INTENTS: ClippyIntent[] = [
     ],
   },
   {
-    id: "joke",
-    phrases: ["joke", "fun fact", "something fun", "tell me a joke"],
-    responses: [
-      "Fun fact: Delian joined Meta after 73 companies and roughly 200 interviews over 6 months. That's less a job search and more a boss fight.",
-    ],
+    id: "dad-joke",
+    phrases: ["joke", "dad joke", "another one", "another joke", "make me laugh", "funny"],
+    responses: DAD_JOKES,
   },
   {
     id: "help",
     phrases: ["help", "what can you do", "commands", "options"],
     responses: [
-      "I can tell you about Delian's projects, his career/experience, his skills, his education, or how to contact him. Try tapping one of the suggestion chips below, or just type a question.",
+      "I can tell you about Delian's projects, his career/experience, his skills, his education, how to contact him, the weather, or tell you a dad joke. Tap a suggestion chip below to get started.",
     ],
   },
 ];
 
 const FALLBACK_RESPONSES = [
-  "I don't have a scripted answer for that one — I only know about Delian's projects, experience, skills, and contact info. Try one of the suggestions below!",
+  "I don't have a scripted answer for that one — I only know about Delian's projects, experience, skills, contact info, weather, and dad jokes. Try one of the suggestions below!",
 ];
 
 export const CLIPPY_SUGGESTIONS = [
@@ -174,6 +211,7 @@ export const CLIPPY_SUGGESTIONS = [
   "What are his skills?",
   "How do I contact him?",
   "What's the weather?",
+  "Tell me a dad joke",
 ];
 
 function pick(responses: string[]): string {
