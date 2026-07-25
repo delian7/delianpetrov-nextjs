@@ -105,7 +105,7 @@ const projects: Project[] = [
     key: "spxdashboard",
     monogram: "SPX",
     gradient: "linear-gradient(135deg, rgba(6,78,59,0.88), rgba(16,185,129,0.62))",
-    tag: "FinTech",
+    tag: "Options Trading",
     title: "SPX Iron Condor Dashboard",
     description: "Personal dashboard for trading SPX iron condors — live option chain via Schwab, P&L visualization, strike selection, and macro calendar",
     techs: ["React", "TypeScript", "Schwab API"],
@@ -980,8 +980,8 @@ export default function HomePage() {
         <div className="logo">D<span>.</span>Petrov</div>
         <div className="nav-right">
           <ul>
-            <li><a href="#projects" onClick={(e) => { e.preventDefault(); scrollTo("projects"); }}>Work</a></li>
             <li><a href="#timeline" onClick={(e) => { e.preventDefault(); scrollTo("timeline"); }}>Career</a></li>
+            <li><a href="#projects" onClick={(e) => { e.preventDefault(); scrollTo("projects"); }}>Work</a></li>
             <li><a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo("contact"); }}>Contact</a></li>
           </ul>
           <ThemeToggle />
@@ -1050,12 +1050,42 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* TIMELINE */}
+      <div id="timeline">
+        <div className="section-header">
+          <div className="section-eyebrow">Career</div>
+          <h2 className="section-title">The path so far</h2>
+        </div>
+      </div>
+
+      <section className="timeline-section">
+        <div className="timeline">
+          {timeline.map((t, i) => (
+            <div
+              className={`timeline-item ${t.milestone ? "milestone" : ""} ${t.description ? "clickable" : ""}`}
+              key={`${t.year}-${i}`}
+              onClick={() => t.description && setActiveTimeline(t)}
+            >
+              <img
+                className={`timeline-logo ${t.noBg ? "no-bg" : ""}`}
+                src={t.logoSrc}
+                alt={t.company}
+              />
+              <div className="timeline-year">{t.year}</div>
+              <div className="timeline-role">{t.role}</div>
+              <div className="timeline-company">{t.company}</div>
+              {t.description && <span className="timeline-chevron">&#8250;</span>}
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* PROJECTS */}
       <div id="projects">
         <div className="section-header">
           <div className="section-eyebrow">Selected Work</div>
           <h2 className="section-title">Projects that<br />shaped my craft</h2>
-          <p className="section-desc">From AI-powered apps to cross-platform tools — each one pushed the boundaries of what I knew.</p>
+          <p className="section-desc">From AI-powered apps to cross-platform tools, each one pushed the boundaries of what I knew.</p>
         </div>
       </div>
 
@@ -1095,36 +1125,6 @@ export default function HomePage() {
                   {p.techs.map((t) => (<span className="tech-pill" key={t}>{t}</span>))}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* TIMELINE */}
-      <div id="timeline">
-        <div className="section-header">
-          <div className="section-eyebrow">Career</div>
-          <h2 className="section-title">The path so far</h2>
-        </div>
-      </div>
-
-      <section className="timeline-section">
-        <div className="timeline">
-          {timeline.map((t, i) => (
-            <div
-              className={`timeline-item ${t.milestone ? "milestone" : ""} ${t.description ? "clickable" : ""}`}
-              key={`${t.year}-${i}`}
-              onClick={() => t.description && setActiveTimeline(t)}
-            >
-              <img
-                className={`timeline-logo ${t.noBg ? "no-bg" : ""}`}
-                src={t.logoSrc}
-                alt={t.company}
-              />
-              <div className="timeline-year">{t.year}</div>
-              <div className="timeline-role">{t.role}</div>
-              <div className="timeline-company">{t.company}</div>
-              {t.description && <span className="timeline-chevron">&#8250;</span>}
             </div>
           ))}
         </div>
