@@ -257,6 +257,10 @@ export default function ClippyAgent() {
             </button>
           </div>
 
+          <div className="clippy-panel-banner">
+            <ClippyNotepadArt width={112} />
+          </div>
+
           <div className="clippy-weather-strip">
             <span className="clippy-weather-line">
               {weatherStatus === "loading" && "Checking the weather…"}
@@ -336,7 +340,7 @@ export default function ClippyAgent() {
         aria-label={open ? "Close Cliply assistant" : "Open Cliply assistant"}
         aria-expanded={open}
       >
-        <ClippyGlyph size={34} animated />
+        <ClippyGlyph size={40} animated />
       </button>
     </div>
   );
@@ -379,6 +383,49 @@ function ClippyGlyph({ size = 32, animated = false }: { size?: number; animated?
         <ellipse cx="23.5" cy="19" rx="4" ry="5" fill="#ffffff" />
         <circle className="clippy-pupil" cx="15.2" cy="17.5" r="1.6" fill="#1a1a1a" />
         <circle className="clippy-pupil" cx="22.6" cy="20.2" r="1.9" fill="#1a1a1a" />
+        <path d="M8 12.5 C10.5 9 14.5 8.3 18 10.2 C14.6 9.6 11 10.3 8.6 13.4 Z" fill="#231f38" />
+        <path d="M20.5 10.8 C23 8 27.5 8.4 30 11.5 C27 9.6 23.6 9.7 21.2 12.3 Z" fill="#231f38" />
+      </g>
+    </svg>
+  );
+}
+
+// Bigger illustration for the opened panel — Cliply standing on a torn-off
+// legal pad page, the classic pose. Too detailed to read at avatar-button size,
+// so it only shows up here where there's room for the ruled lines to render.
+function ClippyNotepadArt({ width = 112 }: { width?: number }) {
+  const gradId = `clippyNotepadWire${useId()}`;
+
+  return (
+    <svg
+      viewBox="0 0 120 130"
+      width={width}
+      height={(width * 130) / 120}
+      className="clippy-notepad-art"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#efe9ff" />
+          <stop offset="45%" stopColor="#a99ee0" />
+          <stop offset="100%" stopColor="#6d5fa8" />
+        </linearGradient>
+      </defs>
+      <polygon points="14,78 108,66 114,124 8,120" fill="#f4e07a" />
+      <g stroke="#dccb63" strokeWidth="1.2" opacity="0.8">
+        <line x1="10" y1="90" x2="111" y2="79" />
+        <line x1="9.3" y1="98" x2="112" y2="86" />
+        <line x1="8.6" y1="106" x2="113" y2="93" />
+        <line x1="8" y1="114" x2="114" y2="101" />
+      </g>
+      <line x1="30" y1="82" x2="26" y2="122" stroke="#e8785a" strokeWidth="1" opacity="0.6" />
+      <g transform="translate(28,4) scale(1.15)">
+        <path d="M9 58 C9 40 9 24 9 22 C9 12 14 6 20 6 C26 6 30 11 30 18 C30 24 27 29 22 30" fill="none" stroke={`url(#${gradId})`} strokeWidth="3.6" strokeLinecap="round" />
+        <path d="M15 50 L15 20 C15 15 18 12 21.5 13 C24.5 13.8 26 16.5 25.5 20 L25.5 44 C25.5 51.5 19.5 56.5 13 55.5 C7 54.6 4 49.5 4 44" fill="none" stroke={`url(#${gradId})`} strokeWidth="3.6" strokeLinecap="round" />
+        <ellipse cx="14" cy="16.5" rx="3.4" ry="4.3" fill="#ffffff" />
+        <ellipse cx="23.5" cy="19" rx="4" ry="5" fill="#ffffff" />
+        <circle cx="15.2" cy="17.5" r="1.6" fill="#1a1a1a" />
+        <circle cx="22.6" cy="20.2" r="1.9" fill="#1a1a1a" />
         <path d="M8 12.5 C10.5 9 14.5 8.3 18 10.2 C14.6 9.6 11 10.3 8.6 13.4 Z" fill="#231f38" />
         <path d="M20.5 10.8 C23 8 27.5 8.4 30 11.5 C27 9.6 23.6 9.7 21.2 12.3 Z" fill="#231f38" />
       </g>
