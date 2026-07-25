@@ -22,6 +22,7 @@ import metroGroupHero from "../images/metrogroup/card.png";
 import seastatusHero from "../images/seastatus/new-home.png";
 import visageHero from "../images/visage/card.png";
 import wanderfulHero from "../images/wanderfultanzania/safari3.png";
+import resilientHeartsHero from "../images/resilienthearts/hero-new.jpg";
 
 // Project logos
 import fridgeGuideLogo from "../images/fridgeguide/fridgeguide_logo.png";
@@ -29,6 +30,7 @@ import metroGroupLogo from "../images/metrogroup/logo.png";
 import seastatusLogo from "../images/seastatus_logo.png";
 import visageLogo from "../images/visage_logo.png";
 import wanderfulLogo from "../images/wanderfultanzania/wanderful-tanzania-logo-white.png";
+import resilientHeartsLogo from "../images/resilient-hearts-logo.png";
 
 // Project screenshots
 import wanderfulWild from "../images/wanderfultanzania/wild-at-heart.png";
@@ -45,6 +47,12 @@ import visageHeroFull from "../images/visage/hero.png";
 import visageColors from "../images/visage/visage-colors.png";
 import visageTemplates from "../images/visage/visage-templates.png";
 import spxDashboard from "../images/spx/spx_dashboard.png";
+// Resilient Hearts screenshots
+import resilientHeartsScreenshot1 from "../images/resilienthearts/screenshot-1.jpg";
+import resilientHeartsScreenshot2 from "../images/resilienthearts/screenshot-2.jpg";
+import resilientHeartsScreenshot3 from "../images/resilienthearts/screenshot-3.jpg";
+import resilientHeartsScreenshot4 from "../images/resilienthearts/screenshot-4.jpg";
+import resilientHeartsScreenshot5 from "../images/resilienthearts/screenshot-5.jpg";
 
 // Timeline logos
 import metaLogo from "../images/meta_logo.png";
@@ -117,6 +125,38 @@ const projects: Project[] = [
       "SPX-only: Section 1256 tax treatment (60/40 long/short-term split regardless of hold period) preserved by design",
     ],
     fullTech: ["React", "TypeScript", "Schwab API", "Chart.js", "Tailwind CSS", "Vite"],
+  },
+  {
+    key: "resilienthearts",
+    monogram: "RH",
+    gradient: "linear-gradient(135deg, rgba(139,92,246,0.8), rgba(236,72,153,0.65))",
+    tag: "Nonprofit / Volunteer Tech",
+    title: "Resilient Hearts Volunteer Dashboard",
+    description: "Volunteer management dashboard for Resilient Hearts Animal Sanctuary — skills tracking, daycare staffing, and volunteer progression",
+    techs: ["Next.js", "TypeScript", "InitLive API", "Tailwind CSS"],
+    heroImage: resilientHeartsHero.src,
+    logo: resilientHeartsLogo.src,
+    subtitle: "Volunteer management dashboard for Resilient Hearts Animal Sanctuary",
+    role: "Creator & Lead Developer",
+    overview:
+      "Built for Resilient Hearts Animal Sanctuary, a nonprofit running a volunteer-staffed daycare (8am–6pm), adoptions, and skills-training programs. The dashboard integrates with InitLive (formerly Bloomerang Volunteer) to provide Supers (volunteer leads) real-time visibility into who's signed up, their qualification tags, and certification status. Volunteers progress through skills training — completing modules unlocks additional job opportunities like front-door operations and adoption events. Features include a filterable volunteer directory, skills gap analysis, daily staffing summaries, and role-based access (Supers see operational data, Admins see full analytics). Replaces manual spreadsheet coordination with a live, mobile-responsive dashboard that loads in under 3 seconds.",
+    screenshots: [
+      resilientHeartsScreenshot1.src,
+      resilientHeartsScreenshot2.src,
+      resilientHeartsScreenshot3.src,
+      resilientHeartsScreenshot4.src,
+      resilientHeartsScreenshot5.src,
+    ],
+    highlights: [
+      "Live InitLive API integration for real-time volunteer signups and qualification data",
+      "Skills progression tracking — volunteers graduate through training to unlock advanced roles",
+      "Daily staffing view: who's scheduled, qualified, and available for daycare coverage",
+      "Skills gap analysis identifies which certifications are most/least held across the volunteer base",
+      "Role-based access: Supers (operational), Volunteers (self-service), Admin (full analytics)",
+      "Mobile-responsive design for on-site daycare management on tablets/phones",
+      "Cost-efficient: read-only analytics layer on top of existing Bloomerang/InitLive investment",
+    ],
+    fullTech: ["Next.js", "TypeScript", "InitLive API", "Tailwind CSS", "React", "Node.js"],
   },
   {
     key: "wanderfultanzania",
