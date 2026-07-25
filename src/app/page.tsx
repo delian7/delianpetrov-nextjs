@@ -11,6 +11,7 @@ import {
   FaEnvelope,
   FaExternalLinkAlt,
 } from "react-icons/fa";
+import ClippyAgent from "../components/ClippyAgent";
 
 // Avatar
 import delianAvatar from "../images/avatar.jpg";
@@ -1143,6 +1144,8 @@ export default function HomePage() {
       {lightboxImages.length > 0 && (
         <Lightbox images={lightboxImages} index={lightboxIndex} onClose={closeLightbox} onNav={navLightbox} />
       )}
+
+      <ClippyAgent />
     </>
   );
 }
