@@ -305,6 +305,7 @@ html.light .modal-overlay { background: rgba(0,0,0,0.4); }
   animation: clippy-tip-in 0.3s ease-out;
 }
 .clippy-tip p { margin: 0; }
+.clippy-tip p + p { margin-top: 8px; }
 .clippy-tip-weather { margin-top: 8px !important; padding-top: 8px; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 12.5px; }
 .clippy-tip-close {
   position: absolute; top: 6px; right: 8px; border: none; background: transparent; color: var(--text-muted);
