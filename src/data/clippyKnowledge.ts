@@ -173,6 +173,7 @@ export const CLIPPY_SUGGESTIONS = [
   "What's his experience?",
   "What are his skills?",
   "How do I contact him?",
+  "What's the weather?",
 ];
 
 function pick(responses: string[]): string {

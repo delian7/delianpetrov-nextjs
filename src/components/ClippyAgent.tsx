@@ -1,7 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { getClippyResponse, CLIPPY_SUGGESTIONS } from "@/data/clippyKnowledge";
+import {
+  SEATTLE_LOCATION,
+  fetchLocationForZip,
+  fetchWeatherForCoords,
+  type WeatherLocation,
+  type WeatherNow,
+} from "@/lib/weather";
 
 interface ChatMessage {
   id: number;
@@ -13,6 +20,11 @@ const GREETING =
   "Hi, I'm Cliply! I can tell you about Delian's projects, experience, or how to get in touch. Ask me anything, or tap a suggestion below.";
 
 const INTRO_TIP_KEY = "clippy-intro-shown";
+const ZIP_STORAGE_KEY = "cliply-zip";
+
+function weatherSentence(weather: WeatherNow, location: WeatherLocation) {
+  return `${weather.emoji} It's currently ${weather.tempF}°F and ${weather.text} in ${location.label}.`;
+}
 
 export default function ClippyAgent() {
   const [open, setOpen] = useState(false);
@@ -23,6 +35,13 @@ export default function ClippyAgent() {
   const [input, setInput] = useState("");
   const nextId = useRef(1);
   const messagesRef = useRef<HTMLDivElement>(null);
+
+  const [location, setLocation] = useState<WeatherLocation>(SEATTLE_LOCATION);
+  const [weather, setWeather] = useState<WeatherNow | null>(null);
+  const [weatherStatus, setWeatherStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [zipFormOpen, setZipFormOpen] = useState(false);
+  const [zipDraft, setZipDraft] = useState("");
+  const [zipError, setZipError] = useState<string | null>(null);
 
   // One-time, dismissible intro bubble — never reappears mid-session, never blocks anything.
   useEffect(() => {
@@ -36,7 +55,7 @@ export default function ClippyAgent() {
 
   useEffect(() => {
     if (!showTip) return;
-    const hideTimer = setTimeout(() => setShowTip(false), 8000);
+    const hideTimer = setTimeout(() => setShowTip(false), 9000);
     return () => clearTimeout(hideTimer);
   }, [showTip]);
 
@@ -45,16 +64,99 @@ export default function ClippyAgent() {
     if (el) el.scrollTop = el.scrollHeight;
   }, [messages, open]);
 
-  const send = (raw: string) => {
+  // Load the last ZIP the visitor set (if any), otherwise default to Seattle.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setWeatherStatus("loading");
+      try {
+        const storedZip = localStorage.getItem(ZIP_STORAGE_KEY);
+        const loc = storedZip && /^\d{5}$/.test(storedZip) ? await fetchLocationForZip(storedZip) : SEATTLE_LOCATION;
+        const w = await fetchWeatherForCoords(loc.lat, loc.lon);
+        if (cancelled) return;
+        setLocation(loc);
+        setWeather(w);
+        setWeatherStatus("ready");
+      } catch {
+        if (!cancelled) setWeatherStatus("error");
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const changeZip = async (rawZip: string): Promise<{ ok: boolean; message: string }> => {
+    const zip = rawZip.trim();
+    if (!/^\d{5}$/.test(zip)) {
+      return { ok: false, message: "ZIP codes are 5 digits, like 98101." };
+    }
+    try {
+      const loc = await fetchLocationForZip(zip);
+      const w = await fetchWeatherForCoords(loc.lat, loc.lon);
+      setLocation(loc);
+      setWeather(w);
+      setWeatherStatus("ready");
+      localStorage.setItem(ZIP_STORAGE_KEY, zip);
+      return { ok: true, message: `Got it — ${weatherSentence(w, loc)}` };
+    } catch {
+      return { ok: false, message: `I couldn't find a US ZIP code "${zip}". Mind trying another one?` };
+    }
+  };
+
+  const useSeattle = async () => {
+    localStorage.removeItem(ZIP_STORAGE_KEY);
+    setZipFormOpen(false);
+    setZipError(null);
+    setWeatherStatus("loading");
+    try {
+      const w = await fetchWeatherForCoords(SEATTLE_LOCATION.lat, SEATTLE_LOCATION.lon);
+      setLocation(SEATTLE_LOCATION);
+      setWeather(w);
+      setWeatherStatus("ready");
+    } catch {
+      setWeatherStatus("error");
+    }
+  };
+
+  const handleZipFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = await changeZip(zipDraft);
+    if (result.ok) {
+      setZipFormOpen(false);
+      setZipDraft("");
+      setZipError(null);
+    } else {
+      setZipError(result.message);
+    }
+  };
+
+  const send = async (raw: string) => {
     const text = raw.trim();
     if (!text) return;
-    const reply = getClippyResponse(text);
-    setMessages((prev) => [
-      ...prev,
-      { id: nextId.current++, role: "user", text },
-      { id: nextId.current++, role: "clippy", text: reply },
-    ]);
+    setMessages((prev) => [...prev, { id: nextId.current++, role: "user", text }]);
     setInput("");
+
+    // A bare 5-digit message is treated as "check the weather for this ZIP".
+    if (/^\d{5}$/.test(text)) {
+      const thinkingId = nextId.current++;
+      setMessages((prev) => [...prev, { id: thinkingId, role: "clippy", text: "Checking that ZIP code…" }]);
+      const result = await changeZip(text);
+      setMessages((prev) => prev.map((m) => (m.id === thinkingId ? { ...m, text: result.message } : m)));
+      return;
+    }
+
+    if (/weather|forecast|temperature|degrees out|how (hot|cold)/i.test(text)) {
+      const reply =
+        weatherStatus === "ready" && weather
+          ? `${weatherSentence(weather, location)} Type a 5-digit ZIP code any time to check somewhere else.`
+          : "I'm still checking the weather — ask again in a moment, or type a 5-digit ZIP code to set your location.";
+      setMessages((prev) => [...prev, { id: nextId.current++, role: "clippy", text: reply }]);
+      return;
+    }
+
+    const reply = getClippyResponse(text);
+    setMessages((prev) => [...prev, { id: nextId.current++, role: "clippy", text: reply }]);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -80,6 +182,9 @@ export default function ClippyAgent() {
             &times;
           </button>
           <p>{GREETING}</p>
+          {weatherStatus === "ready" && weather && (
+            <p className="clippy-tip-weather">By the way — {weatherSentence(weather, location)}</p>
+          )}
         </div>
       )}
 
@@ -99,6 +204,45 @@ export default function ClippyAgent() {
               &times;
             </button>
           </div>
+
+          <div className="clippy-weather-strip">
+            <span className="clippy-weather-line">
+              {weatherStatus === "loading" && "Checking the weather…"}
+              {weatherStatus === "error" && "Weather unavailable right now."}
+              {weatherStatus === "ready" && weather && `${weather.emoji} ${location.label} — ${weather.tempF}°F, ${weather.text}`}
+            </span>
+            <button
+              type="button"
+              className="clippy-zip-toggle"
+              onClick={() => {
+                setZipFormOpen((v) => !v);
+                setZipError(null);
+              }}
+            >
+              Change ZIP
+            </button>
+          </div>
+
+          {zipFormOpen && (
+            <form className="clippy-zip-form" onSubmit={handleZipFormSubmit}>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={zipDraft}
+                onChange={(e) => setZipDraft(e.target.value.replace(/\D/g, "").slice(0, 5))}
+                placeholder="ZIP code"
+                aria-label="Enter a 5-digit US ZIP code"
+                maxLength={5}
+              />
+              <button type="submit" disabled={zipDraft.length !== 5}>
+                Go
+              </button>
+              <button type="button" className="clippy-zip-reset" onClick={useSeattle}>
+                Use Seattle
+              </button>
+            </form>
+          )}
+          {zipFormOpen && zipError && <div className="clippy-zip-error">{zipError}</div>}
 
           <div className="clippy-panel-messages" ref={messagesRef} aria-live="polite">
             {messages.map((m) => (
@@ -146,10 +290,8 @@ export default function ClippyAgent() {
   );
 }
 
-let glyphUid = 0;
-
 function ClippyGlyph({ size = 32, animated = false }: { size?: number; animated?: boolean }) {
-  const [gradId] = useState(() => `clippyWire${glyphUid++}`);
+  const gradId = `clippyWire${useId()}`;
 
   // Outer loop: sweeps up from the bottom, over the top, and curls into a
   // small hook on the upper right — like real bent wire, not a closed ring.
