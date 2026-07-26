@@ -46,52 +46,17 @@ export default function ClippyAgent() {
   const [zipError, setZipError] = useState<string | null>(null);
 
   // One-time, dismissible intro bubble — never reappears mid-session, never blocks anything.
-  // Shows 2s after the visitor scrolls past the hero and stops scrolling, or after
-  // 10s if they're still sitting on the hero (haven't scrolled past it yet).
+  // Shows 3s after page load, no scroll tracking involved.
   useEffect(() => {
     if (sessionStorage.getItem(INTRO_TIP_KEY)) return;
 
-    let heroPassed = false;
-    let shown = false;
-    let scrollIdleTimer: ReturnType<typeof setTimeout> | null = null;
-
-    // This effect's own cleanup only runs on unmount, which never happens —
-    // Cliply stays mounted for the page's whole life. Without an explicit
-    // teardown here, the scroll listener below would keep running a DOM
-    // query and resetting a timer on every single scroll event for the rest
-    // of the page's life, long after the tip has already done its job.
-    const teardown = () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
-      clearTimeout(stillOnHeroTimer);
-    };
-
-    const maybeShow = () => {
-      if (shown) return;
-      shown = true;
+    const showTimer = setTimeout(() => {
       setTipJoke(getRandomDadJoke());
       setShowTip(true);
       sessionStorage.setItem(INTRO_TIP_KEY, "1");
-      teardown();
-    };
+    }, 3000);
 
-    const handleScroll = () => {
-      const heroEl = document.querySelector(".hero");
-      if (heroEl) heroPassed = heroEl.getBoundingClientRect().bottom <= 0;
-
-      if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
-      scrollIdleTimer = setTimeout(() => {
-        if (heroPassed) maybeShow();
-      }, 2000);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    const stillOnHeroTimer = setTimeout(() => {
-      if (!heroPassed) maybeShow();
-    }, 10000);
-
-    return teardown;
+    return () => clearTimeout(showTimer);
   }, []);
 
   // Auto-hides 20s after showing — otherwise stays up until the visitor
