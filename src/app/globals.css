@@ -288,11 +288,16 @@ html.light .modal-overlay { background: rgba(0,0,0,0.4); }
 .clippy-avatar-btn:hover { transform: translateY(-2px) scale(1.05); }
 .clippy-avatar-btn.active { transform: scale(0.92); }
 .clippy-glyph { display: block; }
-.clippy-notepad-art { display: block; filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35)); }
+.clippy-notepad-art { display: block; }
+/* Static only — never put this on an element with an animating descendant.
+   filter + continuous animation forces Safari to re-rasterize every frame
+   instead of just compositing a transform, which tanks scroll/render
+   performance on iPad in particular. */
+.clippy-notepad-paper { filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35)); }
 .clippy-pupil { transform-origin: center; }
-.clippy-glyph-animated { animation: clippy-bob 2.6s ease-in-out infinite; }
+.clippy-glyph-animated { animation: clippy-bob 2.6s ease-in-out infinite; will-change: transform; }
 .clippy-glyph-animated .clippy-pupil { animation: clippy-blink 5s ease-in-out infinite; }
-.clippy-notepad-clip-animated { animation: clippy-bob 2.6s ease-in-out infinite; transform-origin: bottom center; }
+.clippy-notepad-clip-animated { animation: clippy-bob 2.6s ease-in-out infinite; transform-origin: bottom center; will-change: transform; }
 .clippy-notepad-clip-animated .clippy-pupil { animation: clippy-blink 5s ease-in-out infinite; }
 
 @keyframes clippy-bob { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-3px) rotate(-2deg); } }

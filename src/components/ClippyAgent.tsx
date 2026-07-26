@@ -418,15 +418,21 @@ function ClippyNotepadArt({ width = 112, animated = false }: { width?: number; a
           <stop offset="100%" stopColor="#6d5fa8" />
         </linearGradient>
       </defs>
-      <polygon points="14,78 108,66 114,124 8,120" fill="#f4e07a" />
-      <g stroke="#dccb63" strokeWidth="1.2" opacity="0.8">
-        <line x1="10" y1="90" x2="111" y2="79" />
-        <line x1="9.3" y1="98" x2="112" y2="86" />
-        <line x1="8.6" y1="106" x2="113" y2="93" />
-        <line x1="8" y1="114" x2="114" y2="101" />
+      {/* Drop-shadow lives on this static group only, never the animated clip below —
+          filter + a continuously-animating descendant forces the browser to
+          re-rasterize the filter every frame instead of just compositing a
+          transform, which is a known-expensive combo on Safari/iPadOS. */}
+      <g className="clippy-notepad-paper">
+        <polygon points="14,78 108,66 114,124 8,120" fill="#f4e07a" />
+        <g stroke="#dccb63" strokeWidth="1.2" opacity="0.8">
+          <line x1="10" y1="90" x2="111" y2="79" />
+          <line x1="9.3" y1="98" x2="112" y2="86" />
+          <line x1="8.6" y1="106" x2="113" y2="93" />
+          <line x1="8" y1="114" x2="114" y2="101" />
+        </g>
+        <line x1="30" y1="82" x2="26" y2="122" stroke="#e8785a" strokeWidth="1" opacity="0.6" />
+        <ellipse cx="61" cy="103" rx="20" ry="6" fill="#8a6d1f" opacity="0.28" />
       </g>
-      <line x1="30" y1="82" x2="26" y2="122" stroke="#e8785a" strokeWidth="1" opacity="0.6" />
-      <ellipse cx="61" cy="103" rx="20" ry="6" fill="#8a6d1f" opacity="0.28" />
       {/* Positional transform lives on this outer group; the animated class goes on
           the inner one — a CSS `transform` (from the bob animation) on the same
           element as an SVG `transform` attribute overrides it outright, so they

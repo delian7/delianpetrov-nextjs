@@ -18,6 +18,9 @@ export interface WeatherNow {
   text: string;
 }
 
+// Fail fast on a bad connection instead of leaving the fetch hanging indefinitely.
+const REQUEST_TIMEOUT_MS = 6000;
+
 // WMO weather codes, as returned by Open-Meteo's current_weather.weathercode
 const WEATHER_CODES: Record<number, { emoji: string; text: string }> = {
   0: { emoji: "☀️", text: "clear sky" },
@@ -58,7 +61,7 @@ function describeCode(code: number, isDay: boolean) {
 
 export async function fetchWeatherForCoords(lat: number, lon: number): Promise<WeatherNow> {
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=fahrenheit&windspeed_unit=mph`;
-  const res = await fetch(url);
+  const res = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
   if (!res.ok) throw new Error("Weather request failed");
   const data = await res.json();
   const cw = data.current_weather;
@@ -68,7 +71,7 @@ export async function fetchWeatherForCoords(lat: number, lon: number): Promise<W
 }
 
 export async function fetchLocationFromIP(): Promise<WeatherLocation> {
-  const res = await fetch("https://ipwho.is/");
+  const res = await fetch("https://ipwho.is/", { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
   if (!res.ok) throw new Error("IP lookup failed");
   const data = await res.json();
   if (!data.success || typeof data.latitude !== "number" || typeof data.longitude !== "number") {
@@ -85,7 +88,9 @@ export async function fetchLocationFromIP(): Promise<WeatherLocation> {
 }
 
 export async function fetchLocationForZip(zip: string): Promise<WeatherLocation> {
-  const res = await fetch(`https://api.zippopotam.us/us/${encodeURIComponent(zip)}`);
+  const res = await fetch(`https://api.zippopotam.us/us/${encodeURIComponent(zip)}`, {
+    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+  });
   if (!res.ok) throw new Error("Unknown ZIP code");
   const data = await res.json();
   const place = data.places?.[0];
