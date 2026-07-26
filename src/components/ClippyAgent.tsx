@@ -55,12 +55,24 @@ export default function ClippyAgent() {
     let shown = false;
     let scrollIdleTimer: ReturnType<typeof setTimeout> | null = null;
 
+    // This effect's own cleanup only runs on unmount, which never happens —
+    // Cliply stays mounted for the page's whole life. Without an explicit
+    // teardown here, the scroll listener below would keep running a DOM
+    // query and resetting a timer on every single scroll event for the rest
+    // of the page's life, long after the tip has already done its job.
+    const teardown = () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
+      clearTimeout(stillOnHeroTimer);
+    };
+
     const maybeShow = () => {
       if (shown) return;
       shown = true;
       setTipJoke(getRandomDadJoke());
       setShowTip(true);
       sessionStorage.setItem(INTRO_TIP_KEY, "1");
+      teardown();
     };
 
     const handleScroll = () => {
@@ -79,11 +91,7 @@ export default function ClippyAgent() {
       if (!heroPassed) maybeShow();
     }, 10000);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (scrollIdleTimer) clearTimeout(scrollIdleTimer);
-      clearTimeout(stillOnHeroTimer);
-    };
+    return teardown;
   }, []);
 
   // Auto-hides 20s after showing — otherwise stays up until the visitor
