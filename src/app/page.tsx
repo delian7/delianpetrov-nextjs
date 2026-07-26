@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { useEffect, useRef, useState, useCallback } from "react";
+import Image, { type StaticImageData } from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
@@ -81,7 +82,7 @@ interface Project {
   title: string;
   description: string;
   techs: string[];
-  heroImage: string;
+  heroImage: StaticImageData;
   logo: string;
   subtitle: string;
   role: string;
@@ -115,7 +116,7 @@ const projects: Project[] = [
     title: "SPX Iron Condor Dashboard",
     description: "Personal dashboard for trading SPX iron condors — live option chain via Schwab, P&L visualization, strike selection, and macro calendar",
     techs: ["React", "TypeScript", "Schwab API"],
-    heroImage: spxDashboard.src,
+    heroImage: spxDashboard,
     logo: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23064e3b'/%3E%3Cpolyline points='8,34 16,24 24,28 32,16 40,20' fill='none' stroke='%2310b981' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cline x1='8' y1='38' x2='40' y2='38' stroke='%2310b981' stroke-width='1' opacity='0.4'/%3E%3C/svg%3E",
     subtitle: "Personal trading dashboard for SPX iron condors",
     role: "Creator",
@@ -140,7 +141,7 @@ const projects: Project[] = [
     title: "Resilient Hearts Volunteer Dashboard",
     description: "Volunteer management dashboard for Resilient Hearts Animal Sanctuary — skills tracking, daycare staffing, and volunteer progression",
     techs: ["Next.js", "TypeScript", "InitLive API", "Tailwind CSS"],
-    heroImage: resilientHeartsHero.src,
+    heroImage: resilientHeartsHero,
     logo: resilientHeartsLogo.src,
     subtitle: "Volunteer management dashboard for Resilient Hearts Animal Sanctuary",
     role: "Creator & Lead Developer",
@@ -172,7 +173,7 @@ const projects: Project[] = [
     title: "WanderfulTanzania",
     description: "WordPress site with WooCommerce and Stripe integration",
     techs: ["WordPress", "WooCommerce", "Stripe"],
-    heroImage: wanderfulHero.src,
+    heroImage: wanderfulHero,
     logo: wanderfulLogo.src,
     subtitle: "WordPress site with WooCommerce and Stripe integration",
     role: "Webmaster",
@@ -196,7 +197,7 @@ const projects: Project[] = [
     title: "FridgeGuide AI",
     description: "AI designed to categorize groceries and create new recipes",
     techs: ["Ruby on Rails", "React Native", "Azure"],
-    heroImage: fridgeGuideHero.src,
+    heroImage: fridgeGuideHero,
     logo: fridgeGuideLogo.src,
     subtitle: "AI designed to categorize groceries and create new recipes",
     role: "Principal Software Engineer",
@@ -218,7 +219,7 @@ const projects: Project[] = [
     title: "MetroGroup Realty Finance",
     description: "Reporting financial metrics using AWS Lambda & interactive charts",
     techs: ["AWS Lambda", "AmCharts", "Google Sheets"],
-    heroImage: metroGroupHero.src,
+    heroImage: metroGroupHero,
     logo: metroGroupLogo.src,
     subtitle: "Reporting financial metrics using AWS Lambda & interactive charts",
     role: "Developer",
@@ -242,7 +243,7 @@ const projects: Project[] = [
     title: "SeaStatus",
     description: "iOS On-the-Go Marine Weather App",
     techs: ["Ruby on Rails", "Ionic", "Google Cloud"],
-    heroImage: seastatusHero.src,
+    heroImage: seastatusHero,
     logo: seastatusLogo.src,
     subtitle: "iOS On-the-Go Marine Weather App",
     role: "Co-Founder & Lead Engineer",
@@ -266,7 +267,7 @@ const projects: Project[] = [
     title: "Visage",
     description: "Brand creation and visualization tool",
     techs: ["Ruby on Rails", "AWS", "Knockout.js"],
-    heroImage: visageHero.src,
+    heroImage: visageHero,
     logo: visageLogo.src,
     subtitle: "Brand creation and visualization tool",
     role: "Full Stack Engineer",
@@ -526,10 +527,14 @@ function ProjectModal({
               <span className="modal-close-label">Project Details</span>
               <button className="modal-close-btn" onClick={onClose}>&times;</button>
             </div>
-            <div
-              className="modal-hero-banner"
-              style={{ backgroundImage: `url(${project.heroImage})`, backgroundSize: "cover", backgroundPosition: "center" }}
-            >
+            <div className="modal-hero-banner">
+              <Image
+                src={project.heroImage}
+                alt={project.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 640px"
+                style={{ objectFit: "cover" }}
+              />
               <div className="project-hero-overlay" style={{ background: project.gradient }} />
             </div>
             <div className="modal-content" ref={contentRef}>
@@ -887,9 +892,14 @@ export default function HomePage() {
   useEffect(() => {
     const heroEl = heroRef.current;
     if (!heroEl) return;
+    // Negative bottom rootMargin: treat the hero as "gone" once it's mostly
+    // scrolled past, instead of waiting for the very last pixel. Otherwise the
+    // canvas/parallax work stays alive right through the stats section's GSAP
+    // reveal, stacking two expensive workloads on top of each other at once —
+    // the exact overlap that was tipping mobile Safari into an OOM reload.
     const observer = new IntersectionObserver(
       ([entry]) => { heroVisibleRef.current = entry.isIntersecting; },
-      { threshold: 0 }
+      { threshold: 0, rootMargin: "0px 0px -40% 0px" }
     );
     observer.observe(heroEl);
     return () => observer.disconnect();
@@ -1159,10 +1169,15 @@ export default function HomePage() {
           {projects.map((p) => (
             <div className="project-card" key={p.key} onClick={() => handleCardClick(p)}>
               <div className="project-hero">
-                <div
-                  className="project-hero-inner"
-                  style={{ backgroundImage: `url(${p.heroImage})` }}
-                >
+                <div className="project-hero-inner">
+                  <Image
+                    src={p.heroImage}
+                    alt={p.title}
+                    fill
+                    loading="lazy"
+                    sizes="(max-width: 768px) 80vw, 460px"
+                    style={{ objectFit: "cover" }}
+                  />
                   <div className="project-hero-overlay" style={{ background: p.gradient }} />
                 </div>
               </div>
