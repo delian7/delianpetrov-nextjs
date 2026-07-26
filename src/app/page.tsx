@@ -878,6 +878,22 @@ export default function HomePage() {
   /* ── Tech Parallax Hero ── */
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Array<{x:number;y:number;size:number;speedX:number;speedY:number;opacity:number;color:string}>>([]);
+  const heroVisibleRef = useRef(true);
+
+  // The particle canvas and parallax scroll handler below only matter while the
+  // hero is actually on screen — which is most of the time NOT true once you've
+  // scrolled past it. Skipping their per-frame/per-scroll-event work while it's
+  // off screen removes the majority of their cost during normal page scrolling.
+  useEffect(() => {
+    const heroEl = heroRef.current;
+    if (!heroEl) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => { heroVisibleRef.current = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    observer.observe(heroEl);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -917,6 +933,10 @@ export default function HomePage() {
 
     let raf: number;
     const animate = () => {
+      if (!heroVisibleRef.current) {
+        raf = requestAnimationFrame(animate);
+        return;
+      }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       const light = document.documentElement.classList.contains("light");
       const ps = particlesRef.current;
@@ -944,8 +964,15 @@ export default function HomePage() {
     };
     animate();
 
-    // Scroll parallax for grid, orbs, geos
-    const handleScroll = () => {
+    // Scroll parallax for grid, orbs, geos. Raw 'scroll' events can fire far
+    // more often than the display can even render (especially mid-fling), so
+    // this only does its DOM reads/writes once per animation frame — and not
+    // at all once the hero has scrolled out of view, since none of it is
+    // visible past that point anyway.
+    let scrollTicking = false;
+    const updateParallax = () => {
+      scrollTicking = false;
+      if (!heroVisibleRef.current) return;
       const s = window.scrollY;
       const progress = Math.min(1, s / window.innerHeight);
       const grid = document.getElementById("gridPlane");
@@ -962,6 +989,11 @@ export default function HomePage() {
         g.style.transform = `translateY(${-progress * speed}px) rotate(${rot + i * 20}deg)`;
         g.style.opacity = String(Math.max(0.1, 0.3 - progress * 0.3));
       });
+    };
+    const handleScroll = () => {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      requestAnimationFrame(updateParallax);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
 
