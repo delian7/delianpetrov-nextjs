@@ -64,6 +64,12 @@ import gsaLogo from "../images/gsa_logo.png";
 import anttechLogo from "../images/anttech_logo.png";
 
 gsap.registerPlugin(ScrollTrigger);
+// iOS Safari's address bar hides/shows while scrolling, which fires a burst of
+// `resize` events mid-scroll even though nothing actually changed layout-wise.
+// Without this, ScrollTrigger re-measures every trigger on the page for each
+// one of those — expensive work stacking on an already-busy main thread during
+// load, which is a known contributor to mobile Safari tab crashes.
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 /* ─── TYPES ─── */
 
@@ -879,9 +885,24 @@ export default function HomePage() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
+    // Reallocating the canvas backing store is expensive, and iOS Safari fires
+    // a burst of resize events mid-scroll as its address bar hides/shows (even
+    // though the width — the only dimension this canvas actually cares about —
+    // hasn't changed). Debounce, and skip entirely if width is unchanged.
+    let lastWidth = canvas.offsetWidth;
+    let resizeDebounce: ReturnType<typeof setTimeout> | null = null;
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      lastWidth = canvas.offsetWidth;
+    };
+    const handleResize = () => {
+      if (canvas.offsetWidth === lastWidth) return;
+      if (resizeDebounce) clearTimeout(resizeDebounce);
+      resizeDebounce = setTimeout(resize, 200);
+    };
     resize();
-    window.addEventListener("resize", resize);
+    window.addEventListener("resize", handleResize);
 
     if (particlesRef.current.length === 0) {
       for (let i = 0; i < 60; i++) {
@@ -944,7 +965,12 @@ export default function HomePage() {
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); window.removeEventListener("scroll", handleScroll); };
+    return () => {
+      cancelAnimationFrame(raf);
+      if (resizeDebounce) clearTimeout(resizeDebounce);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   /* ── Horizontal drag scroll ── */
