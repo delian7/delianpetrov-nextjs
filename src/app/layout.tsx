@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import AnalyticsInit from "../components/AnalyticsInit";
 import Script from "next/script";
 import "./globals.css";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body>
         {children}
         <Analytics />
+        <AnalyticsInit />
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"

@@ -13,6 +13,7 @@ import {
   FaExternalLinkAlt,
 } from "react-icons/fa";
 import ClippyAgent from "../components/ClippyAgent";
+import { track } from "../lib/analytics";
 
 // Avatar
 import delianAvatar from "../images/avatar.jpg";
@@ -780,6 +781,9 @@ function ContactForm() {
         body: JSON.stringify(data),
       });
       setStatus("sent");
+      track("contact_submitted", {
+        reason: typeof data.reason === "string" ? data.reason : null,
+      });
       form.reset();
     } catch {
       setStatus("idle");
