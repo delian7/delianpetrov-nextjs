@@ -1,5 +1,5 @@
 /**
- * Live weather lookup for Cliply. Uses three free, keyless, CORS-enabled
+ * Live weather lookup for Pipey. Uses three free, keyless, CORS-enabled
  * public APIs — no account, no API key to manage, no backend proxy needed:
  *  - ipwho.is to guess the visitor's location from their IP address
  *  - Open-Meteo (https://open-meteo.com) for the current conditions
