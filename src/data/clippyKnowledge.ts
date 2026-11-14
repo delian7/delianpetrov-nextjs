@@ -1,5 +1,5 @@
 /**
- * Cliply's knowledge base. Fully scripted, keyword-matched, client-side only —
+ * Pipey's knowledge base. Fully scripted, keyword-matched, client-side only —
  * no LLM calls, no network requests, nothing about the visitor is stored or sent
  * anywhere. Every answer below is a canned string; the "matching" is just
  * substring lookups against the phrase list, in priority order.
@@ -11,8 +11,7 @@ interface ClippyIntent {
   responses: string[];
 }
 
-// 30 original dad jokes — used both as the "tell me a joke" chat intent and
-// for the one-time intro tip (a random pick shows there each session).
+// 30 original dad jokes — used as the "tell me a joke" chat intent.
 export const DAD_JOKES = [
   "I told my computer I needed a break, and it said no problem — it froze immediately.",
   "Why do programmers prefer dark mode? Because light attracts bugs.",
@@ -55,7 +54,7 @@ const INTENTS: ClippyIntent[] = [
     id: "greeting",
     phrases: ["hello", "hi ", "hi!", "hi?", "hey", "yo ", "howdy", "greetings", "sup"],
     responses: [
-      "Hi there! I'm Cliply. Ask me about Delian's projects, his experience, or how to get in touch — or tap a suggestion below.",
+      "Hi there! I'm Pipey. Ask me about Delian's projects, his experience, or how to get in touch — or tap a suggestion below.",
     ],
   },
   {
@@ -69,10 +68,10 @@ const INTENTS: ClippyIntent[] = [
     responses: ["See you around! Click my avatar anytime you have more questions."],
   },
   {
-    id: "cliply-identity",
-    phrases: ["who are you", "what are you", "your name", "cliply", "clippy"],
+    id: "pipey-identity",
+    phrases: ["who are you", "what are you", "your name", "pipey", "cliply", "clippy"],
     responses: [
-      "I'm Cliply, a small scripted guide living in the corner of this site — no AI model, no data collection, just canned answers about Delian and his work. Try asking about his projects, experience, or how to reach him.",
+      "I'm Pipey, a small scripted guide living in the corner of this site — no AI model, no data collection, just canned answers about Delian and his work. Try asking about his projects, experience, or how to reach him.",
     ],
   },
   {

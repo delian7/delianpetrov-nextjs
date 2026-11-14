@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { getClippyResponse, getRandomDadJoke, CLIPPY_SUGGESTIONS } from "@/data/clippyKnowledge";
+import { getClippyResponse, CLIPPY_SUGGESTIONS } from "@/data/clippyKnowledge";
 import {
   fetchLocationFromIP,
   fetchLocationForZip,
@@ -17,9 +17,8 @@ interface ChatMessage {
 }
 
 const GREETING =
-  "Hi, I'm Cliply! I can tell you about Delian's projects, experience, or how to get in touch. Ask me anything, or tap a suggestion below.";
+  "Hi, I'm Pipey! I can tell you about Delian's projects, experience, or how to get in touch. Ask me anything, or tap a suggestion below.";
 
-const INTRO_TIP_KEY = "clippy-intro-shown";
 const ZIP_STORAGE_KEY = "cliply-zip";
 
 function weatherSentence(weather: WeatherNow, location: WeatherLocation) {
@@ -28,8 +27,6 @@ function weatherSentence(weather: WeatherNow, location: WeatherLocation) {
 
 export default function ClippyAgent() {
   const [open, setOpen] = useState(false);
-  const [showTip, setShowTip] = useState(false);
-  const [tipJoke, setTipJoke] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([
     { id: 0, role: "clippy", text: GREETING },
   ]);
@@ -44,28 +41,6 @@ export default function ClippyAgent() {
   const [zipFormOpen, setZipFormOpen] = useState(false);
   const [zipDraft, setZipDraft] = useState("");
   const [zipError, setZipError] = useState<string | null>(null);
-
-  // One-time, dismissible intro bubble — never reappears mid-session, never blocks anything.
-  // Shows 3s after page load, no scroll tracking involved.
-  useEffect(() => {
-    if (sessionStorage.getItem(INTRO_TIP_KEY)) return;
-
-    const showTimer = setTimeout(() => {
-      setTipJoke(getRandomDadJoke());
-      setShowTip(true);
-      sessionStorage.setItem(INTRO_TIP_KEY, "1");
-    }, 3000);
-
-    return () => clearTimeout(showTimer);
-  }, []);
-
-  // Auto-hides 20s after showing — otherwise stays up until the visitor
-  // closes it or opens the chat.
-  useEffect(() => {
-    if (!showTip) return;
-    const hideTimer = setTimeout(() => setShowTip(false), 20000);
-    return () => clearTimeout(hideTimer);
-  }, [showTip]);
 
   // Close the chat panel on a click/tap anywhere outside it (or the avatar button).
   useEffect(() => {
@@ -199,43 +174,24 @@ export default function ClippyAgent() {
   };
 
   const toggleOpen = () => {
-    setShowTip(false);
     setOpen((prev) => !prev);
   };
 
   return (
     <div className="clippy-root" ref={rootRef}>
-      {showTip && !open && (
-        <div className="clippy-tip" role="status">
-          <button
-            type="button"
-            className="clippy-tip-close"
-            onClick={() => setShowTip(false)}
-            aria-label="Dismiss tip"
-          >
-            &times;
-          </button>
-          <p>Hi, I&apos;m Cliply, and I can tell you more about Delian&apos;s profile.</p>
-          <p>But first, here&apos;s a dad joke: {tipJoke}</p>
-          {weatherStatus === "ready" && weather && location && (
-            <p className="clippy-tip-weather">{weatherSentence(weather, location)}</p>
-          )}
-        </div>
-      )}
-
       {open && (
-        <div className="clippy-panel" role="dialog" aria-label="Cliply assistant" aria-modal="false">
+        <div className="clippy-panel" role="dialog" aria-label="Pipey assistant" aria-modal="false">
           <div className="clippy-panel-header">
             <span className="clippy-panel-title">
               <ClippyGlyph size={18} />
-              Cliply
+              Pipey
               <span className="clippy-made-by">Made by Delian</span>
             </span>
             <button
               type="button"
               className="clippy-panel-close"
               onClick={() => setOpen(false)}
-              aria-label="Close Cliply"
+              aria-label="Close Pipey"
             >
               &times;
             </button>
@@ -303,7 +259,7 @@ export default function ClippyAgent() {
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about projects, experience, contact..."
               maxLength={200}
-              aria-label="Message Cliply"
+              aria-label="Message Pipey"
               autoComplete="off"
             />
             <button type="submit" aria-label="Send" disabled={!input.trim()}>
@@ -317,7 +273,7 @@ export default function ClippyAgent() {
         type="button"
         className={`clippy-avatar-btn ${open ? "active" : ""}`}
         onClick={toggleOpen}
-        aria-label={open ? "Close Cliply assistant" : "Open Cliply assistant"}
+        aria-label={open ? "Close Pipey assistant" : "Open Pipey assistant"}
         aria-expanded={open}
       >
         <ClippyNotepadArt width={64} animated />
@@ -370,7 +326,7 @@ function ClippyGlyph({ size = 32, animated = false }: { size?: number; animated?
   );
 }
 
-// Bigger illustration for the opened panel — Cliply standing on a torn-off
+// Bigger illustration for the opened panel — Pipey standing on a torn-off
 // legal pad page, the classic pose. Too detailed to read at avatar-button size,
 // so it only shows up here where there's room for the ruled lines to render.
 function ClippyNotepadArt({ width = 112, animated = false }: { width?: number; animated?: boolean }) {
