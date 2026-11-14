@@ -285,6 +285,32 @@ const projects: Project[] = [
   },
 ];
 
+/* ─── HACKS & BUILDS (side projects — cards link out to standalone pages) ─── */
+
+interface Hack {
+  key: string;
+  monogram: string;
+  gradient: string;
+  tag: string;
+  title: string;
+  description: string;
+  techs: string[];
+  href: string;
+}
+
+const hacks: Hack[] = [
+  {
+    key: "notion-hitlist",
+    monogram: "NH",
+    gradient: "linear-gradient(135deg, rgba(26,26,46,0.9), rgba(105,68,255,0.55))",
+    tag: "Automation / Notion",
+    title: "Notion Hitlist: To-Dos Worked by an Agent",
+    description: "Your to-do list is the remote control for your AI agent — check a box in Notion and the work comes back done.",
+    techs: ["Notion", "Raspberry Pi", "Cloudflare Tunnel", "Python"],
+    href: "/hacks/notion-hitlist.html",
+  },
+];
+
 const timeline: TimelineEntry[] = [
   { year: "2025", role: "Senior Software Engineer", company: "Meta", logoSrc: metaLogo.src, milestone: true,
     description: "Monetization Team at Meta. Building AI-powered upsell experiences for Facebook and Messenger across iOS and Android, and a paygating feature controlling link-sharing volume in posts for creators and Pages — the latter covered by BBC News in December 2025. Joined after 73 companies, ~200 interviews, and 6 months of preparation.",
@@ -1203,6 +1229,42 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* HACKS & BUILDS */}
+      <div id="hacks">
+        <div className="section-header">
+          <div className="section-eyebrow">Side Projects</div>
+          <h2 className="section-title">Hacks &amp; Builds</h2>
+          <p className="section-desc">Side projects, experiments, and things I built to scratch my own itch.</p>
+        </div>
+      </div>
+
+      <section className="projects-wrapper">
+        <div className="projects-track hacks-track">
+          {hacks.map((h) => (
+            <a className="project-card" key={h.key} href={h.href}>
+              <div className="project-hero">
+                <div className="project-hero-inner" style={{ background: h.gradient }}>
+                  {h.monogram}
+                </div>
+              </div>
+              <div className="project-body">
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
+                  <div>
+                    <div className="project-tag">{h.tag}</div>
+                    <div className="project-name">{h.title}</div>
+                  </div>
+                  <span className="hack-chevron" aria-hidden="true">&#8250;</span>
+                </div>
+                <div className="project-desc">{h.description}</div>
+                <div className="project-techs">
+                  {h.techs.map((t) => (<span className="tech-pill" key={t}>{t}</span>))}
+                </div>
+              </div>
+            </a>
           ))}
         </div>
       </section>
