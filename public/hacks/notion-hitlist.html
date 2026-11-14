@@ -385,9 +385,55 @@
         html { scroll-behavior: auto; }
         .link-arrow.live .pulse-dot, .working-dots::after { animation: none; }
       }
+
+      /* ---------- Site chrome (delianpetrov.com header + footer) ---------- */
+      body { padding-top: 61px; }
+      .site-nav {
+        position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+        padding: 20px 48px; display: flex; justify-content: space-between; align-items: center;
+        backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        background: rgba(252, 251, 248, 0.85); border-bottom: 1px solid var(--line);
+      }
+      .site-nav .site-logo {
+        font-weight: 700; font-size: 18px; letter-spacing: -0.5px;
+        color: var(--ink); text-decoration: none;
+      }
+      .site-nav .site-logo span { color: #6944ff; }
+      .site-nav ul { list-style: none; display: flex; gap: 36px; margin: 0; padding: 0; }
+      .site-nav ul li a {
+        color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500;
+        letter-spacing: 0.5px; text-transform: uppercase;
+      }
+      .site-nav ul li a:hover { color: var(--ink); }
+      .site-footer {
+        margin-top: 0; padding: 32px 24px 72px; text-align: center;
+        border-top: 1px solid var(--line); font-size: 13px; color: var(--faint);
+        max-width: none;
+      }
+      @media (prefers-color-scheme: dark) {
+        .site-nav { background: rgba(10, 10, 10, 0.7); }
+      }
+      @media (max-width: 768px) {
+        .site-nav { padding: 16px 24px; }
+        .site-nav ul { gap: 20px; }
+        .site-nav ul li a { font-size: 12px; }
+      }
+      @media (max-width: 480px) {
+        .site-nav ul { display: none; }
+      }
     </style>
   </head>
   <body>
+    <header class="site-nav">
+      <a class="site-logo" href="/">D<span>.</span>Petrov</a>
+      <nav>
+        <ul>
+          <li><a href="/#timeline">Career</a></li>
+          <li><a href="/#projects">Work</a></li>
+          <li><a href="/#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
     <main class="wrap">
 
       <!-- ================= HERO ================= -->
@@ -836,6 +882,8 @@
         mechanics described are the real ones in daily use.
       </footer>
     </main>
+
+    <footer class="site-footer">Built by Delian Petrov &middot; &copy; 2026</footer>
 
     <script>
       (function () {
